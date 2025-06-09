@@ -1,8 +1,6 @@
 # Ballerina Trello connector
 
 [![Build](https://github.com/ballerina-platform/module-ballerinax-trello/actions/workflows/ci.yml/badge.svg)](https://github.com/ballerina-platform/module-ballerinax-trello/actions/workflows/ci.yml)
-[![Trivy](https://github.com/ballerina-platform/module-ballerinax-trello/actions/workflows/trivy-scan.yml/badge.svg)](https://github.com/ballerina-platform/module-ballerinax-trello/actions/workflows/trivy-scan.yml)
-[![GraalVM Check](https://github.com/ballerina-platform/module-ballerinax-trello/actions/workflows/build-with-bal-test-graalvm.yml/badge.svg)](https://github.com/ballerina-platform/module-ballerinax-trello/actions/workflows/build-with-bal-test-graalvm.yml)
 [![GitHub Last Commit](https://img.shields.io/github/last-commit/ballerina-platform/module-ballerinax-trello.svg)](https://github.com/ballerina-platform/module-ballerinax-trello/commits/master)
 [![GitHub Issues](https://img.shields.io/github/issues/ballerina-platform/ballerina-library/module/trello.svg?label=Open%20Issues)](https://github.com/ballerina-platform/ballerina-library/labels/module%trello)
 
@@ -28,7 +26,7 @@ The `Trello` connector provides practical examples illustrating usage in various
 
 ### Setting up the prerequisites
 
-1. Download and install Java SE Development Kit (JDK) version 17. You can download it from either of the following sources:
+1. Download and install Java SE Development Kit (JDK) version 21. You can download it from either of the following sources:
 
     * [Oracle JDK](https://www.oracle.com/java/technologies/downloads/)
     * [OpenJDK](https://adoptium.net/)
