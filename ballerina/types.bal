@@ -11,14 +11,6 @@ public type EnterpriseIdp record {
     boolean requestSigned?;
 };
 
-# Represents the Queries record for the operation: put-members-id-boardbackgrounds-idbackground
-public type PutMembersIdBoardbackgroundsIdbackgroundQueries record {
-    # One of: `dark`, `light`, `unknown`
-    "dark"|"light"|"unknown" brightness?;
-    # Whether the background should be tiled
-    boolean tile?;
-};
-
 # Represents the Queries record for the operation: cardsidmembersvoted-1
 public type Cardsidmembersvoted1Queries record {
     # The ID of the member to vote 'yes' on the card
@@ -29,6 +21,14 @@ public type EnterpriseLicenses record {
     decimal totalMembers?;
     EnterpriseLicensesRelatedEnterprises[] relatedEnterprises?;
     decimal? maxMembers?;
+};
+
+# Represents the Queries record for the operation: put-members-id-boardbackgrounds-idbackground
+public type PutMembersIdBoardbackgroundsIdbackgroundQueries record {
+    # One of: `dark`, `light`, `unknown`
+    "dark"|"light"|"unknown" brightness?;
+    # Whether the background should be tiled
+    boolean tile?;
 };
 
 # The new position for the List
@@ -115,14 +115,14 @@ public type PostMembersIdSavedsearchesQueries record {
     string name;
 };
 
-public type CustomFieldItemsValue record {
-    string checked?;
-};
-
 # Represents the Queries record for the operation: get-cards-id-members
 public type GetCardsIdMembersQueries record {
     # `all` or a comma-separated list of member [fields](/cloud/trello/guides/rest-api/object-definitions/)
     string fields = "avatarHash,fullName,initials,username";
+};
+
+public type CustomFieldItemsValue record {
+    string checked?;
 };
 
 # Represents the Queries record for the operation: get-checklists-id-checkitems-idcheckitem
@@ -141,29 +141,35 @@ public type ConnectionConfig record {|
     # The HTTP version understood by the client
     http:HttpVersion httpVersion = http:HTTP_2_0;
     # Configurations related to HTTP/1.x protocol
-    ClientHttp1Settings http1Settings?;
+    http:ClientHttp1Settings http1Settings = {};
     # Configurations related to HTTP/2 protocol
-    http:ClientHttp2Settings http2Settings?;
+    http:ClientHttp2Settings http2Settings = {};
     # The maximum time to wait (in seconds) for a response before closing the connection
-    decimal timeout = 60;
+    decimal timeout = 30;
     # The choice of setting `forwarded`/`x-forwarded` header
     string forwarded = "disable";
+    # Configurations associated with Redirection
+    http:FollowRedirects followRedirects?;
     # Configurations associated with request pooling
     http:PoolConfiguration poolConfig?;
     # HTTP caching related configurations
-    http:CacheConfig cache?;
+    http:CacheConfig cache = {};
     # Specifies the way of handling compression (`accept-encoding`) header
     http:Compression compression = http:COMPRESSION_AUTO;
     # Configurations associated with the behaviour of the Circuit Breaker
     http:CircuitBreakerConfig circuitBreaker?;
     # Configurations associated with retrying
     http:RetryConfig retryConfig?;
+    # Configurations associated with cookies
+    http:CookieConfig cookieConfig?;
     # Configurations associated with inbound response size limits
-    http:ResponseLimitConfigs responseLimits?;
+    http:ResponseLimitConfigs responseLimits = {};
     # SSL/TLS-related options
     http:ClientSecureSocket secureSocket?;
     # Proxy server related options
     http:ProxyConfig proxy?;
+    # Provides settings related to client socket configuration
+    http:ClientSocketConfig socketConfig = {};
     # Enables the inbound payload validation functionality which provided by the constraint package. Enabled by default
     boolean validation = true;
     # Enables relaxed data binding on the client side. When enabled, `nil` values are treated as optional, 
@@ -179,10 +185,6 @@ public type GetCardsIdListQueries record {
     string fields = "all";
 };
 
-public type IdOneOf2 string;
-
-public type id_4 string|TrelloID;
-
 # An object containing the key and value to set for the card's Custom Field value. The key used to set the value should match the type of Custom Field defined
 public type CardsidCardcustomFieldidCustomFielditemValue record {
     string date?;
@@ -190,6 +192,10 @@ public type CardsidCardcustomFieldidCustomFielditemValue record {
     boolean checked?;
     string text?;
 };
+
+public type IdOneOf2 string;
+
+public type id_4 string|TrelloID;
 
 # Represents the Queries record for the operation: get-notifications-id-card
 public type GetNotificationsIdCardQueries record {
@@ -252,12 +258,24 @@ public type GetBoardsIdMembershipsQueries record {
     "admins"|"all"|"none"|"normal" filter = "all";
     # Works for premium organizations only
     boolean activity = false;
+    # Fields to show if `member=true`. Valid values: [nested member resource fields](/cloud/trello/guides/rest-api/nested-resources/)
     @http:Query {name: "member_fields"}
     MemberFields memberFields?;
     # Shows the type of member to the org the user is. For instance, an org admin will have a `orgMemberType` of `admin`
     boolean orgMemberType = false;
     # Determines whether to include a [nested member object](/cloud/trello/guides/rest-api/nested-resources/)
     boolean member = false;
+};
+
+# Represents the Queries record for the operation: get-members-id-organizations
+public type GetMembersIdOrganizationsQueries record {
+    # One of: `all`, `members`, `none`, `public` (Note: `members` filters to only private Workspaces)
+    "all"|"members"|"none"|"public" filter = "all";
+    # Whether or not to include paid account information in the returned workspace object
+    @http:Query {name: "paid_account"}
+    boolean paidAccount = false;
+    # `all` or a comma-separated list of organization [fields](/cloud/trello/guides/rest-api/object-definitions/)
+    OrganizationFields fields?;
 };
 
 # Represents the Queries record for the operation: put-webhooks-id
@@ -271,16 +289,6 @@ public type PutWebhooksIdQueries record {
     string callbackURL?;
     # ID of the model to be monitored
     TrelloID idModel?;
-};
-
-# Represents the Queries record for the operation: get-members-id-organizations
-public type GetMembersIdOrganizationsQueries record {
-    # One of: `all`, `members`, `none`, `public` (Note: `members` filters to only private Workspaces)
-    "all"|"members"|"none"|"public" filter = "all";
-    @http:Query {name: "paid_account"}
-    boolean paidAccount = false;
-    # `all` or a comma-separated list of organization [fields](/cloud/trello/guides/rest-api/object-definitions/)
-    OrganizationFields fields?;
 };
 
 public type PosOneOf1 "top"|"bottom";
@@ -312,29 +320,29 @@ public type id_3 TrelloID|string;
 
 public type id_2 TrelloID|string;
 
-public type CustomStickerScaled record {
-    TrelloID id?;
-};
-
 # Represents the Queries record for the operation: get-labels-id
 public type GetLabelsIdQueries record {
     # all or a comma-separated list of [fields](/cloud/trello/guides/rest-api/object-definitions/)
     string fields = "all";
 };
 
+public type CustomStickerScaled record {
+    TrelloID id?;
+};
+
 public type InlineParameterItemsIdLabels TrelloID;
+
+# Represents the Queries record for the operation: get-cards-id-stickers
+public type GetCardsIdStickersQueries record {
+    # `all` or a comma-separated list of sticker [fields](/cloud/trello/guides/rest-api/object-definitions/)
+    string fields = "all";
+};
 
 public type SavedSearch record {
     PosStringOrNumber pos?;
     string query?;
     string name?;
     TrelloID id?;
-};
-
-# Represents the Queries record for the operation: get-cards-id-stickers
-public type GetCardsIdStickersQueries record {
-    # `all` or a comma-separated list of sticker [fields](/cloud/trello/guides/rest-api/object-definitions/)
-    string fields = "all";
 };
 
 public type ExportStatus record {
@@ -394,24 +402,22 @@ public type Notification record {
     record {}[] reactions?;
 };
 
-# Represents the Queries record for the operation: get-enterprises-id-signupurl
-public type GetEnterprisesIdSignupurlQueries record {
-    # Designates whether the user has seen/consented to the Trello ToS prior to being redirected to the enterprise signup page/their IdP
-    boolean tosAccepted = false;
-    # 
-    boolean authenticate = false;
-    # 
-    boolean confirmationAccepted = false;
-    # Any valid URL
-    string? returnUrl?;
-};
-
 # Represents the Queries record for the operation: get-checklists-id-checkitems
 public type GetChecklistsIdCheckitemsQueries record {
     # One of: `all`, `none`
     "all"|"none" filter = "all";
     # One of: `all`, `name`, `nameData`, `pos`, `state`,`type`, `due`, `dueReminder`, `idMember`
     "all"|"name"|"nameData"|"pos"|"state"|"type"|"due"|"dueReminder"|"idMember" fields = "all";
+};
+
+# Represents the Queries record for the operation: get-enterprises-id-signupurl
+public type GetEnterprisesIdSignupurlQueries record {
+    # Designates whether the user has seen/consented to the Trello ToS prior to being redirected to the enterprise signup page/their IdP
+    boolean tosAccepted = false;
+    boolean authenticate = false;
+    boolean confirmationAccepted = false;
+    # Any valid URL
+    string? returnUrl?;
 };
 
 public type MemberPrefsTwoFactor record {
@@ -447,11 +453,15 @@ public type Pos3 Pos3OneOf1|Pos3Pos3OneOf12;
 
 public type TokenFields "identifier"|"idMember"|"dateCreated"|"dateExpires"|"permissions";
 
+# Represents the Queries record for the operation: get-members-id-boardbackgrounds
+public type GetMembersIdBoardbackgroundsQueries record {
+    # One of: `all`, `custom`, `default`, `none`, `premium`
+    "all"|"custom"|"default"|"none"|"premium" filter = "all";
+};
+
 # Represents the Queries record for the operation: get-search-members
 public type GetSearchMembersQueries record {
-    # 
     TrelloID idBoard?;
-    # 
     boolean onlyOrgMembers = false;
     # Search query 1 to 16384 characters long
     @constraint:String {maxLength: 16394, minLength: 1}
@@ -459,14 +469,7 @@ public type GetSearchMembersQueries record {
     # The maximum number of results to return. Maximum of 20
     @constraint:Int {maxValue: 20}
     int:Signed32 'limit = 8;
-    # 
     TrelloID idOrganization?;
-};
-
-# Represents the Queries record for the operation: get-members-id-boardbackgrounds
-public type GetMembersIdBoardbackgroundsQueries record {
-    # One of: `all`, `custom`, `default`, `none`, `premium`
-    "all"|"custom"|"default"|"none"|"premium" filter = "all";
 };
 
 public type Pos1 Pos1OneOf1|Pos1Pos1OneOf12;
@@ -476,6 +479,7 @@ public type CardsidCardcustomFieldsCustomFieldItems record {
     anydata idValue?;
     # The ID of the Custom Field
     anydata idCustomField?;
+    # An object containing the key and value to set for the card's Custom Field value. The key used to set the value should match the type of Custom Field defined. This is optional if Custom Field is list type
     CardsidCardcustomFieldsValue value?;
 };
 
@@ -520,16 +524,16 @@ public type GetTokensTokenQueries record {
     TokenFields fields?;
 };
 
-# Represents the Queries record for the operation: post-cards-id-idlabels
-public type PostCardsIdIdlabelsQueries record {
-    # The ID of the label to add
-    TrelloID value?;
-};
-
 # Represents the Queries record for the operation: get-actions-id-member
 public type GetActionsIdMemberQueries record {
     # `all` or a comma-separated list of member fields
     MemberFields fields?;
+};
+
+# Represents the Queries record for the operation: post-cards-id-idlabels
+public type PostCardsIdIdlabelsQueries record {
+    # The ID of the label to add
+    TrelloID value?;
 };
 
 # Represents the Queries record for the operation: put-labels-id
@@ -580,13 +584,16 @@ public type ActionFields "id"|"idMemberCreator"|"data"|"type"|"date"|"limits"|"d
 
 # Represents the Queries record for the operation: get-members=id
 public type GetMembersIdQueries record {
-    # 
     boolean savedSearches = false;
     # One of: `all`, `custom`, `default`, `none`, `premium`
     "all"|"custom"|"default"|"none"|"premium" boardBackgrounds = "none";
     # See the [Cards Nested Resource](/cloud/trello/guides/rest-api/nested-resources/#cards-nested-resource) for additional options
     string cards = "none";
+    # Whether or not to include paid account information in the returned member object
+    # 
+    # # Deprecated
     @http:Query {name: "paid_account"}
+    @deprecated
     boolean paidAccount = false;
     # One of: `all`, `members`, `none`, `public`
     "all"|"members"|"none"|"public" organizationsInvited = "none";
@@ -594,20 +601,24 @@ public type GetMembersIdQueries record {
     string boards?;
     # `all` or `none`
     "all"|"none" customBoardBackgrounds = "none";
+    # `all` or a comma-separated list of organization [fields](/cloud/trello/guides/rest-api/object-definitions/)
     @http:Query {name: "organizationsInvited_fields"}
     OrganizationFields organizationsInvitedFields?;
     # `all` or `none`
     "all"|"none" customEmoji = "none";
     # `all` or `none`
     "all"|"none" customStickers = "none";
+    # `all` or a comma-separated list of board [fields](/cloud/trello/guides/rest-api/object-definitions/)
     @http:Query {name: "boardsInvited_fields"}
     BoardFields boardsInvitedFields?;
+    # `all` or a comma-separated list of organization [fields](/cloud/trello/guides/rest-api/object-definitions/)
     @http:Query {name: "organization_fields"}
     OrganizationFields organizationFields?;
     # `all` or a comma-separated list of: closed, members, open, organization, pinned, public, starred, unpinned
     "closed"|"members"|"open"|"organization"|"pinned"|"public"|"starred"|"unpinned" boardsInvited?;
     # Whether to return the boardStars or not
     boolean boardStars = false;
+    # Whether or not to include paid account information in the returned workspace object
     @http:Query {name: "organization_paid_account"}
     boolean organizationPaidAccount = false;
     # One of: `all`, `members`, `none`, `public`
@@ -623,6 +634,8 @@ public type GetMembersIdQueries record {
 };
 
 public type Cover record {
+    # An object containing information regarding the card's cover 
+    #  `brightness` can be sent alongside any of the other parameters, but all of the other parameters are mutually exclusive; you can not have the cover be a color and an `idAttachment` at the same time
     CardsidValue value?;
 };
 
@@ -636,16 +649,6 @@ public type PutOrganizationsIdMembersQueries record {
     # An email address
     string email;
 };
-
-# Provides settings related to HTTP/1.x protocol.
-public type ClientHttp1Settings record {|
-    # Specifies whether to reuse a connection for multiple requests
-    http:KeepAlive keepAlive = http:KEEPALIVE_AUTO;
-    # The chunking behaviour of the request
-    http:Chunking chunking = http:CHUNKING_AUTO;
-    # Proxy server related options
-    ProxyConfig proxy?;
-|};
 
 public type InlineResponse2001 Member;
 
@@ -663,6 +666,16 @@ public type CustomFieldDisplayOptions record {
     CustomFieldDisplayValue value?;
 };
 
+public type InlineResponse2003 Board;
+
+# Represents the Queries record for the operation: get-organizations-id-memberships
+public type GetOrganizationsIdMembershipsQueries record {
+    # `all` or a comma-separated list of: `active`, `admin`, `deactivated`, `me`, `normal`
+    "all"|"active"|"admin"|"deactivated"|"me"|"normal" filter = "all";
+    # Whether to include the Member objects with the Memberships
+    boolean member = false;
+};
+
 public type Webhook record {
     string? firstConsecutiveFailDate?;
     decimal consecutiveFailures?;
@@ -673,23 +686,11 @@ public type Webhook record {
     TrelloID idModel?;
 };
 
-# Represents the Queries record for the operation: get-organizations-id-memberships
-public type GetOrganizationsIdMembershipsQueries record {
-    # `all` or a comma-separated list of: `active`, `admin`, `deactivated`, `me`, `normal`
-    "all"|"active"|"admin"|"deactivated"|"me"|"normal" filter = "all";
-    # Whether to include the Member objects with the Memberships
-    boolean member = false;
-};
-
-public type InlineResponse2003 Board;
-
 public type InlineResponse2002 Notification;
 
 public type PosStringOrNumber PosStringOrNumberOneOf1|PosStringOrNumberPosStringOrNumberOneOf12;
 
 public type InlineResponse2005 TrelloList;
-
-public type Id1OneOf2 string;
 
 # Represents the Queries record for the operation: put-cards-id
 public type PutCardsIdQueries record {
@@ -744,10 +745,13 @@ public type PutCardsIdQueries record {
     string desc?;
 };
 
+public type Id1OneOf2 string;
+
 public type InlineResponse2004 Card;
 
 public type CustomFieldsBody record {
     PosStringOrNumber pos;
+    # Whether this Custom Field should be shown on the front of Cards
     @jsondata:Name {value: "display_cardFront"}
     boolean displayCardFront = true;
     # The name of the Custom Field
@@ -764,18 +768,17 @@ public type CustomFieldsBody record {
 public type InlineResponse2006 Organization;
 
 public type CardsidCardcustomFieldidCustomFielditemOneOf1 record {
+    # An object containing the key and value to set for the card's Custom Field value. The key used to set the value should match the type of Custom Field defined
     CardsidCardcustomFieldidCustomFielditemValue value?;
 };
 
 # Represents the Queries record for the operation: membersidavatar
 public type MembersidavatarQueries record {
-    # 
     record {byte[] fileContent; string fileName;} file;
 };
 
 # Represents the Queries record for the operation: post-members-id-customstickers
 public type PostMembersIdCustomstickersQueries record {
-    # 
     record {byte[] fileContent; string fileName;} file;
 };
 
@@ -789,16 +792,11 @@ public type Label record {
     TrelloID id?;
 };
 
-# Represents the Queries record for the operation: post-boards-id-boardplugins
-public type PostBoardsIdBoardpluginsQueries record {
-    # The ID of the Power-Up to enable
-    TrelloID idPlugin?;
-};
-
 # Represents the Queries record for the operation: get-boards-id-lists
 public type GetBoardsIdListsQueries record {
     # Filter to apply to Lists
     ViewFilter filter?;
+    # `all` or a comma-separated list of card [fields](/cloud/trello/guides/rest-api/object-definitions/#card-object)
     @http:Query {name: "card_fields"}
     string cardFields = "all";
     # Filter to apply to Cards
@@ -807,18 +805,24 @@ public type GetBoardsIdListsQueries record {
     string fields = "all";
 };
 
+# Represents the Queries record for the operation: post-boards-id-boardplugins
+public type PostBoardsIdBoardpluginsQueries record {
+    # The ID of the Power-Up to enable
+    TrelloID idPlugin?;
+};
+
 # Represents the Queries record for the operation: get-batch
 public type GetBatchQueries record {
     # A list of API routes. Maximum of 10 routes allowed. The routes should begin with a forward slash and should not include the API version number - e.g. "urls=/members/trello,/cards/[cardId]"
     string urls;
 };
 
-# Represents the Queries record for the operation: get-enterprises-id-pendingOrganizations
-public type GetEnterprisesIdPendingOrganizationsQueries record {
-    # Date in YYYY-MM-DD format indicating the date to search up to for activeness of workspace
-    string activeSince?;
-    # Date in YYYY-MM-DD format indicating the date to search up to for inactiveness of workspace
-    string inactiveSince?;
+# Represents the Queries record for the operation: post-boards-id-lists
+public type PostBoardsIdListsQueries record {
+    # Determines the position of the list. Valid values: `top`, `bottom`, or a positive number
+    string pos = "top";
+    # The name of the list to be created. 1 to 16384 characters long
+    string name;
 };
 
 public type Attachment record {
@@ -835,12 +839,12 @@ public type Attachment record {
     string url?;
 };
 
-# Represents the Queries record for the operation: post-boards-id-lists
-public type PostBoardsIdListsQueries record {
-    # Determines the position of the list. Valid values: `top`, `bottom`, or a positive number
-    string pos = "top";
-    # The name of the list to be created. 1 to 16384 characters long
-    string name;
+# Represents the Queries record for the operation: get-enterprises-id-pendingOrganizations
+public type GetEnterprisesIdPendingOrganizationsQueries record {
+    # Date in YYYY-MM-DD format indicating the date to search up to for activeness of workspace
+    string activeSince?;
+    # Date in YYYY-MM-DD format indicating the date to search up to for inactiveness of workspace
+    string inactiveSince?;
 };
 
 public type ActionDisplayEntitiesCard record {
@@ -861,18 +865,22 @@ public type GetCardsIdQueries record {
     boolean customFieldItems = false;
     # `true`, `false`, or `cover`
     Attachments attachments?;
+    # `all` or a comma-separated list of member [fields](/cloud/trello/guides/rest-api/object-definitions/). **Defaults**: `avatarHash, fullName, initials, username`
     @http:Query {name: "member_fields"}
     string memberFields?;
+    # `all` or a comma-separated list of member [fields](/cloud/trello/guides/rest-api/object-definitions/). **Defaults**: `avatarHash, fullName, initials, username`
     @http:Query {name: "memberVoted_fields"}
     string memberVotedFields?;
+    # `all` or a comma-separated list of sticker [fields](/cloud/trello/guides/rest-api/object-definitions/)
     @http:Query {name: "sticker_fields"}
     string stickerFields = "all";
     # See the [Lists Nested Resource](/cloud/trello/guides/rest-api/nested-resources/)
     boolean list = false;
-    # 
     boolean checkItemStates = false;
+    # `all` or a comma-separated list of board [fields](/cloud/trello/guides/rest-api/object-definitions/#board-object). **Defaults**: `name, desc, descData, closed, idOrganization, pinned, url, prefs`
     @http:Query {name: "board_fields"}
     string boardFields?;
+    # `all` or a comma-separated list of attachment [fields](/cloud/trello/guides/rest-api/object-definitions/)
     @http:Query {name: "attachment_fields"}
     string attachmentFields = "all";
     # Whether to return member objects for members on the card
@@ -883,6 +891,7 @@ public type GetCardsIdQueries record {
     boolean stickers = false;
     # `all` or a comma-separated list of [fields](/cloud/trello/guides/rest-api/object-definitions/). **Defaults**: `badges, checkItemStates, closed, dateLastActivity, desc, descData, due, start, idBoard, idChecklists, idLabels, idList, idMembers, idShort, idAttachmentCover, manualCoverAttachment, labels, name, pos, shortUrl, url`
     string fields?;
+    # `all` or a comma-separated list of `idBoard,idCard,name,pos`
     @http:Query {name: "checklist_fields"}
     string checklistFields = "all";
     # See the [Actions Nested Resource](/cloud/trello/guides/rest-api/nested-resources/#actions-nested-resource)
@@ -917,8 +926,10 @@ public type CardBadgesAttachmentsByType record {
 
 # Represents the Queries record for the operation: enterprises-id-members-idMember-deactivated
 public type EnterprisesIdMembersIdMemberDeactivatedQueries record {
+    # Any valid value that the [nested board resource](/cloud/trello/guides/rest-api/nested-resources/) accepts
     @http:Query {name: "board_fields"}
     BoardFields boardFields?;
+    # Any valid value that the [nested organization resource](/cloud/trello/guides/rest-api/nested-resources/) accepts
     @http:Query {name: "organization_fields"}
     OrganizationFields organizationFields?;
     # A comma separated list of any valid values that the [nested member field resource]() accepts
@@ -931,6 +942,7 @@ public type EnterprisesIdMembersIdMemberDeactivatedQueries record {
 public type GetChecklistsIdQueries record {
     # Valid values: `all`, `closed`, `none`, `open`, `visible`. Cards is a nested resource. The additional query params available are documented at [Cards Nested Resource](/cloud/trello/guides/rest-api/nested-resources/#cards-nested-resource)
     "all"|"closed"|"none"|"open"|"visible" cards = "none";
+    # The fields on the checkItem to return if checkItems are being returned. `all` or a comma-separated list of: `name`, `nameData`, `pos`, `state`, `type`, `due`, `dueReminder`, `idMember`
     @http:Query {name: "checkItem_fields"}
     "all"|"name"|"nameData"|"pos"|"state"|"type"|"due"|"dueReminder"|"idMember" checkItemFields = "all";
     # The check items on the list to return. One of: `all`, `none`
@@ -990,13 +1002,13 @@ public type PostCardsIdActionsCommentsQueries record {
     string text;
 };
 
+public type InlineParameterItemsFields AttachmentFields;
+
 public type EnterpriseOrganizationPrefs record {
     record {} boardDeleteRestrict?;
     ("computer"|"trello"|"google-drive"|"box"|"onedrive"|"link")[] attachmentRestrictions?;
     record {} boardVisibilityRestrict?;
 };
-
-public type InlineParameterItemsFields AttachmentFields;
 
 public type Color "yellow"|"purple"|"blue"|"red"|"green"|"orange"|"black"|"sky"|"pink"|"lime"?;
 
@@ -1004,6 +1016,7 @@ public type CustomFieldsidBody record {
     PosStringOrNumber pos?;
     # The name of the Custom Field
     string name?;
+    # Whether to display this custom field on the front of cards
     @jsondata:Name {value: "display/cardFront"}
     boolean displayCardFront?;
 };
@@ -1051,15 +1064,15 @@ public type GetCardsIdStickersIdstickerQueries record {
     string fields = "all";
 };
 
-public type Checklist record {
-    TrelloID id?;
-};
-
 public type ActionDisplayEntities record {
     ActionDisplayEntitiesMemberCreator memberCreator?;
     ActionDisplayEntitiesComment comment?;
     ActionDisplayEntitiesContextOn contextOn?;
     ActionDisplayEntitiesCard card?;
+};
+
+public type Checklist record {
+    TrelloID id?;
 };
 
 # Represents the Queries record for the operation: post-tokens-token-webhooks
@@ -1150,6 +1163,8 @@ public type PostCardsIdStickersQueries record {
     int zIndex;
 };
 
+public type Attachments AttachmentsOneOf1|AttachmentsAttachmentsOneOf12;
+
 public type MembershipMember record {
     string avatarURL?;
     string initials?;
@@ -1162,28 +1177,48 @@ public type MembershipMember record {
     string username?;
 };
 
-public type Attachments AttachmentsOneOf1|AttachmentsAttachmentsOneOf12;
+public type ActionMemberCreator record {
+    boolean activityBlocked?;
+    string avatarHash?;
+    string avatarUrl?;
+    string initials?;
+    TrelloID idMemberReferrer?;
+    string fullName?;
+    TrelloID id?;
+    string username?;
+};
+
+# The fields on a Card
+public type CardFields "id"|"address"|"badges"|"checkItemStates"|"closed"|"coordinates"|"creationMethod"|"dueComplete"|"dateLastActivity"|"desc"|"descData"|"due"|"dueReminder"|"idBoard"|"idChecklists"|"idLabels"|"idList"|"idMembers"|"idMembersVoted"|"idShort"|"idAttachmentCover"|"labels"|"limits"|"locationName"|"manualCoverAttachment"|"name"|"pos"|"shortLink"|"shortUrl"|"subscribed"|"url"|"cover"|"isTemplate";
 
 # Represents the Queries record for the operation: post-boards
 public type PostBoardsQueries record {
+    # Determines whether card covers are enabled
     @http:Query {name: "prefs_cardCovers"}
     boolean prefsCardCovers = true;
+    # The id of a custom background or one of: `blue`, `orange`, `green`, `red`, `purple`, `pink`, `lime`, `sky`, `grey`
     @http:Query {name: "prefs_background"}
     "blue"|"orange"|"green"|"red"|"purple"|"pink"|"lime"|"sky"|"grey" prefsBackground = "blue";
     # Determines whether to use the default set of labels
     boolean defaultLabels = true;
+    # Who can vote on this board. One of `disabled`, `members`, `observers`, `org`, `public`
     @http:Query {name: "prefs_voting"}
     "disabled"|"members"|"observers"|"org"|"public" prefsVoting = "disabled";
+    # Determines what types of members can invite users to join. One of: `admins`, `members`
     @http:Query {name: "prefs_invitations"}
     "members"|"admins" prefsInvitations = "members";
+    # Determines whether users can join the boards themselves or whether they have to be invited
     @http:Query {name: "prefs_selfJoin"}
     boolean prefsSelfJoin = true;
+    # The permissions level of the board. One of: `org`, `private`, `public`
     @http:Query {name: "prefs_permissionLevel"}
     "org"|"private"|"public" prefsPermissionLevel = "private";
+    # Determines the type of card aging that should take place on the board if card aging is enabled. One of: `pirate`, `regular`
     @http:Query {name: "prefs_cardAging"}
     "pirate"|"regular" prefsCardAging = "regular";
     # The id of a board to copy into the new board
     TrelloID idBoardSource?;
+    # Who can comment on cards on this board. One of: `disabled`, `members`, `observers`, `org`, `public`
     @http:Query {name: "prefs_comments"}
     "disabled"|"members"|"observers"|"org"|"public" prefsComments = "members";
     # The new name for the board. 1 to 16384 characters long
@@ -1202,20 +1237,6 @@ public type PostBoardsQueries record {
     "all"|"calendar"|"cardAging"|"recap"|"voting" powerUps?;
 };
 
-public type ActionMemberCreator record {
-    boolean activityBlocked?;
-    string avatarHash?;
-    string avatarUrl?;
-    string initials?;
-    TrelloID idMemberReferrer?;
-    string fullName?;
-    TrelloID id?;
-    string username?;
-};
-
-# The fields on a Card
-public type CardFields "id"|"address"|"badges"|"checkItemStates"|"closed"|"coordinates"|"creationMethod"|"dueComplete"|"dateLastActivity"|"desc"|"descData"|"due"|"dueReminder"|"idBoard"|"idChecklists"|"idLabels"|"idList"|"idMembers"|"idMembersVoted"|"idShort"|"idAttachmentCover"|"labels"|"limits"|"locationName"|"manualCoverAttachment"|"name"|"pos"|"shortLink"|"shortUrl"|"subscribed"|"url"|"cover"|"isTemplate";
-
 public type MemberPrefsTimezoneInfo record {
     string timezoneNext?;
     int offsetCurrent?;
@@ -1226,28 +1247,40 @@ public type MemberPrefsTimezoneInfo record {
 
 # Represents the Queries record for the operation: put-boards-id
 public type PutBoardsIdQueries record {
+    # One of: pirate, regular
     @http:Query {name: "prefs/cardAging"}
     string prefsCardAging?;
+    # Name for the orange label. 1 to 16384 characters long
     @http:Query {name: "labelNames/orange"}
     string labelNamesOrange?;
+    # Determines whether the calendar feed is enabled or not
     @http:Query {name: "prefs/calendarFeedEnabled"}
     boolean prefsCalendarFeedEnabled?;
+    # One of: org, private, public
     @http:Query {name: "prefs/permissionLevel"}
     string prefsPermissionLevel?;
+    # Name for the yellow label. 1 to 16384 characters long
     @http:Query {name: "labelNames/yellow"}
     string labelNamesYellow?;
+    # Name for the purple label. 1 to 16384 characters long
     @http:Query {name: "labelNames/purple"}
     string labelNamesPurple?;
+    # Who can invite people to this board. One of: admins, members
     @http:Query {name: "prefs/invitations"}
     string prefsInvitations?;
+    # Who can vote on this board. One of disabled, members, observers, org, public
     @http:Query {name: "prefs/voting"}
     string prefsVoting?;
+    # Who can comment on cards on this board. One of: disabled, members, observers, org, public
     @http:Query {name: "prefs/comments"}
     string prefsComments?;
+    # Name for the blue label. 1 to 16384 characters long
     @http:Query {name: "labelNames/blue"}
     string labelNamesBlue?;
+    # The id of a custom background or one of: blue, orange, green, red, purple, pink, lime, sky, grey
     @http:Query {name: "prefs/background"}
     string prefsBackground?;
+    # Name for the red label. 1 to 16384 characters long
     @http:Query {name: "labelNames/red"}
     string labelNamesRed?;
     # Whether the acting user is subscribed to the board
@@ -1256,14 +1289,18 @@ public type PutBoardsIdQueries record {
     string name?;
     # The id of the Workspace the board should be moved to
     string idOrganization?;
+    # Whether Workspace members can join the board themselves
     @http:Query {name: "prefs/selfJoin"}
     boolean prefsSelfJoin?;
     # Whether the board is closed
     boolean closed?;
+    # Whether card covers should be displayed on this board
     @http:Query {name: "prefs/cardCovers"}
     boolean prefsCardCovers?;
+    # Name for the green label. 1 to 16384 characters long
     @http:Query {name: "labelNames/green"}
     string labelNamesGreen?;
+    # Determines whether the Voting Power-Up should hide who voted on cards or not
     @http:Query {name: "prefs/hideVotes"}
     boolean prefsHideVotes?;
     # A new description for the board, 0 to 16384 characters long
@@ -1322,7 +1359,6 @@ public type PostCardsQueries record {
     string coordinates?;
     # A URL starting with `http://` or `https://`. The URL will be attached to the card upon creation
     string urlSource?;
-    # 
     record {byte[] fileContent; string fileName;} fileSource?;
     # The ID of the list the card should be created in
     TrelloID idList;
@@ -1348,16 +1384,16 @@ public type PutBoardsIdMyprefsEmailpositionQueries record {
     "bottom"|"top" value;
 };
 
-# Represents the Queries record for the operation: get-notifications-id-list
-public type GetNotificationsIdListQueries record {
-    # `all` or a comma-separated list of list [fields](/cloud/trello/guides/rest-api/object-definitions/)
-    ListFields fields?;
-};
-
 public type EnterpriseAuditLogOrganization record {
     string name?;
     TrelloID id?;
     EnterpriseAuditLogOrganizationEnterpriseJoinRequest? enterpriseJoinRequest?;
+};
+
+# Represents the Queries record for the operation: get-notifications-id-list
+public type GetNotificationsIdListQueries record {
+    # `all` or a comma-separated list of list [fields](/cloud/trello/guides/rest-api/object-definitions/)
+    ListFields fields?;
 };
 
 # Represents the Queries record for the operation: get-actions-id-organization
@@ -1370,6 +1406,7 @@ public type GetActionsIdOrganizationQueries record {
 public type GetCardsIdChecklistsQueries record {
     # `all` or `none`
     "all"|"none" filter = "all";
+    # `all` or a comma-separated list of: `name,nameData,pos,state,type,due,dueReminder,idMember`
     @http:Query {name: "checkItem_fields"}
     string checkItemFields = "name,nameData,pos,state,due,dueReminder,idMember";
     # `all` or `none`
@@ -1383,30 +1420,40 @@ public type PosPosOneOf12 float;
 
 # Represents the Queries record for the operation: get-enterprises-id
 public type GetEnterprisesIdQueries record {
+    # Whether or not to include paid account information in the returned workspace objects
     @http:Query {name: "organization_paid_accounts"}
     boolean organizationPaidAccounts = false;
+    # One of: `avatarHash`, `fullName`, `initials`, `username`
     @http:Query {name: "member_fields"}
     string memberFields = "avatarHash, fullName, initials, username";
+    # Pass a [SCIM-style query](/cloud/trello/scim/) to filter members. This takes precedence over the all/normal/admins value of members. If any of the member_* args are set, the member array will be paginated
     @http:Query {name: "member_filter"}
     string memberFilter = "none";
+    # Deprecated: Please use member_sort. One of: `ascending`, `descending`, `asc`, `desc`
     @http:Query {name: "member_sortOrder"}
     string memberSortOrder = "id";
+    # Any valid value that the [nested organization field resource]() accepts
     @http:Query {name: "organization_fields"}
     string organizationFields = "none";
+    # Comma-seperated list of: `me`, `normal`, `admin`, `active`, `deactivated`
     @http:Query {name: "organization_memberships"}
     string organizationMemberships = "none";
+    # Any integer between 0 and 100
     @http:Query {name: "member_startIndex"}
     int:Signed32 memberStartIndex?;
     # One of: `none`, `normal`, `admins`, `owners`, `all`
     string members = "none";
+    # Deprecated: Please use member_sort. This parameter expects a [SCIM-style sorting value](/cloud/trello/scim/). Note that the members array returned will be paginated if `members` is `normal` or `admins`. Pagination can be controlled with `member_startIndex`, etc, and the API response's header will contain the total count and pagination state
     @http:Query {name: "member_sortBy"}
     string memberSortBy = "none";
     # One of: `none`, `members`, `public`, `all`
     string organizations = "none";
     # Comma-separated list of: `id`, `name`, `displayName`, `prefs`, `ssoActivationFailed`, `idAdmins`, `idMembers` (Note that the members array returned will be paginated if `members` is 'normal' or 'admins'. Pagination can be controlled with member_startIndex, etc, but the API response will not contain the total available result count or pagination status data. Read the SCIM documentation [here]() for more information on filtering), `idOrganizations`, `products`, `userTypes`, `idMembers`, `idOrganizations`
     string fields = "all";
+    # 0 to 100
     @http:Query {name: "member_count"}
     int:Signed32 memberCount?;
+    # This parameter expects a [SCIM-style](/cloud/trello/scim/) sorting value prefixed by a `-` to sort descending. If no `-` is prefixed, it will be sorted ascending. Note that the members array returned will be paginated if `members` is 'normal' or 'admins'. Pagination can be controlled with member_startIndex, etc, but the API response will not contain the total available result count or pagination status data
     @http:Query {name: "member_sort"}
     string memberSort?;
 };
@@ -1423,39 +1470,13 @@ public type InlineResponseItems2009 Board;
 
 public type InlineResponseItems2006 Member;
 
-public type InlineResponseItems2007 BoardBackground;
-
 # Represents the Queries record for the operation: put-checklists-id-field
 public type PutChecklistsIdFieldQueries record {
     # The value to change the checklist name to. Should be a string of length 1 to 16384
     Value value;
 };
 
-# Represents the Queries record for the operation: get-members-id-notifications
-public type GetMembersIdNotificationsQueries record {
-    # 
-    string filter = "all";
-    # 
-    boolean entities = false;
-    # A notification ID
-    string before?;
-    # 
-    boolean display = false;
-    # Max 1000
-    int:Signed32 'limit?;
-    # 
-    boolean memberCreator = true;
-    # Max 100
-    int:Signed32 page?;
-    @http:Query {name: "read_filter"}
-    string readFilter = "all";
-    # `all` or a comma-separated list of notification [fields](/cloud/trello/guides/rest-api/object-definitions/)
-    string fields = "all";
-    @http:Query {name: "memberCreator_fields"}
-    string memberCreatorFields = "avatarHash,fullName,initials,username";
-    # A notification ID
-    string since?;
-};
+public type InlineResponseItems2007 BoardBackground;
 
 public type EnterpriseAuditLog record {
     string date?;
@@ -1468,22 +1489,50 @@ public type EnterpriseAuditLog record {
 
 public type InlineResponseItems2005 Organization;
 
+# Represents the Queries record for the operation: get-members-id-notifications
+public type GetMembersIdNotificationsQueries record {
+    string filter = "all";
+    boolean entities = false;
+    # A notification ID
+    string before?;
+    boolean display = false;
+    # Max 1000
+    int:Signed32 'limit?;
+    boolean memberCreator = true;
+    # Max 100
+    int:Signed32 page?;
+    # One of: `all`, `read`, `unread`
+    @http:Query {name: "read_filter"}
+    string readFilter = "all";
+    # `all` or a comma-separated list of notification [fields](/cloud/trello/guides/rest-api/object-definitions/)
+    string fields = "all";
+    # `all` or a comma-separated list of member [fields](/cloud/trello/guides/rest-api/object-definitions/)
+    @http:Query {name: "memberCreator_fields"}
+    string memberCreatorFields = "avatarHash,fullName,initials,username";
+    # A notification ID
+    string since?;
+};
+
 public type InlineResponseItems2002 Attachment;
 
 public type InlineResponseItems2003 Attachment;
 
 # Represents the Queries record for the operation: get-notifications-id
 public type GetNotificationsIdQueries record {
+    # `all` or a comma-separated list of card [fields](/cloud/trello/guides/rest-api/object-definitions/)
     @http:Query {name: "card_fields"}
     CardFields cardFields?;
+    # `all` or a comma-separated list of member [fields](/cloud/trello/guides/rest-api/object-definitions/)
     @http:Query {name: "member_fields"}
     MemberFields memberFields?;
     # Whether to include the display object with the results
     boolean display = false;
     # Whether to include the list object
     boolean list = false;
+    # `all` or a comma-separated list of board [fields](/cloud/trello/guides/rest-api/object-definitions/)
     @http:Query {name: "board_fields"}
     BoardFields boardFields?;
+    # `all` or a comma-separated list of organization [fields](/cloud/trello/guides/rest-api/object-definitions/)
     @http:Query {name: "organization_fields"}
     OrganizationFields organizationFields?;
     # Whether to include the entities object with the results
@@ -1500,6 +1549,7 @@ public type GetNotificationsIdQueries record {
     boolean board = false;
     # Whether to include the card object
     boolean card = false;
+    # `all` or a comma-separated list of member [fields](/cloud/trello/guides/rest-api/object-definitions/)
     @http:Query {name: "memberCreator_fields"}
     MemberFields memberCreatorFields?;
 };
@@ -1581,7 +1631,7 @@ public type ActionLimits record {
 };
 
 public type Board record {
-    string descData?;
+    string? descData?;
     string idTags?;
     boolean pinned?;
     BoardLabelNames labelNames?;
@@ -1614,6 +1664,7 @@ public type Board record {
 public type GetMembersIdBoardsQueries record {
     # `all` or a comma-separated list of: `closed`, `members`, `open`, `organization`, `public`, `starred`
     "all"|"closed"|"members"|"open"|"organization"|"public"|"starred" filter = "all";
+    # `all` or a comma-separated list of organization [fields](/cloud/trello/guides/rest-api/object-definitions/)
     @http:Query {name: "organization_fields"}
     OrganizationFields organizationFields?;
     # Which lists to include with the boards. One of: `all`, `closed`, `none`, `open`
@@ -1645,9 +1696,9 @@ public type InlineResponseItems20012 PluginData;
 
 public type InlineResponseItems20013 Tag;
 
-public type InlineResponseItems20014 Member|Card|Board|Organization;
-
 public type id TrelloID|string;
+
+public type InlineResponseItems20014 Member|Card|Board|Organization;
 
 public type TransferrableOrganization record {
     PendingOrganizationsTransferabilityNewBillableMembers[] restrictedMembers?;
@@ -1680,13 +1731,13 @@ public type NotificationsidmemberQueries record {
 
 public type PosStringOrNumberOneOf1 "top"|"bottom";
 
+public type AttachmentFields "id"|"bytes"|"date"|"edgeColor"|"idMember"|"isUpload"|"mimeType"|"name"|"previews"|"url"|"pos";
+
 # Represents the Queries record for the operation: get-members-id-customstickers-idsticker
 public type GetMembersIdCustomstickersIdstickerQueries record {
     # `all` or a comma-separated list of `scaled`, `url`
     "scaled"|"url"|"all" fields = "all";
 };
-
-public type AttachmentFields "id"|"bytes"|"date"|"edgeColor"|"idMember"|"isUpload"|"mimeType"|"name"|"previews"|"url"|"pos";
 
 # Represents the Queries record for the operation: put-members-id-boardstars-idstar
 public type PutMembersIdBoardstarsIdstarQueries record {
@@ -1794,9 +1845,9 @@ public type GetActionsIdactionReactionsIdQueries record {
     boolean member = true;
 };
 
-public type Id TrelloID|IdOneOf2;
-
 public type Pos3Pos3OneOf12 "top"|"bottom";
+
+public type Id TrelloID|IdOneOf2;
 
 # Represents the Queries record for the operation: get-organizations-id-memberships-idmembership
 public type GetOrganizationsIdMembershipsIdmembershipQueries record {
@@ -1888,6 +1939,7 @@ public type GetUsersIdQueries record {
 
 # Represents the Queries record for the operation: put-boards-id-memberships-idmembership
 public type PutBoardsIdMembershipsIdmembershipQueries record {
+    # Valid values: all, avatarHash, bio, bioData, confirmed, fullName, idPremOrgsAdmin, initials, memberType, products, status, url, username
     @http:Query {name: "member_fields"}
     "all"|"avatarHash"|"bio"|"bioData"|"confirmed"|"fullName"|"idPremOrgsAdmin"|"initials"|"memberType"|"products"|"status"|"url"|"username" memberFields = "fullName";
     # One of: admin, normal, observer. Determines the type of member that this membership will be to this board
@@ -1898,18 +1950,17 @@ public type Value1 Value1OneOf1|Value1Value1OneOf12|Value1Value1Value1OneOf123|V
 
 # Represents the Queries record for the operation: get-actions-id
 public type GetActionsIdQueries record {
-    # 
     boolean entities = false;
+    # `all` or a comma-separated list of member [fields](/cloud/trello/guides/rest-api/object-definitions/)
     @http:Query {name: "member_fields"}
     string memberFields = "avatarHash,fullName,initials,username";
-    # 
     boolean display = true;
-    # 
     boolean member = true;
     # Whether to include the member object for the creator of the action
     boolean memberCreator = true;
     # `all` or a comma-separated list of action [fields](/cloud/trello/guides/rest-api/object-definitions/#action-object)
     string fields = "all";
+    # `all` or a comma-separated list of member [fields](/cloud/trello/guides/rest-api/object-definitions/)
     @http:Query {name: "memberCreator_fields"}
     string memberCreatorFields = "avatarHash,fullName,initials,username";
 };
@@ -1925,16 +1976,16 @@ public type ActionDisplayEntitiesComment record {
     string 'type?;
 };
 
-# Represents the Queries record for the operation: get-members-id-actions
-public type GetMembersIdActionsQueries record {
-    # A comma-separated list of [action types](https://developer.atlassian.com/cloud/trello/guides/rest-api/action-types/)
-    string filter?;
-};
-
 # Represents the Queries record for the operation: put-enterprises-id-organizations
 public type PutEnterprisesIdOrganizationsQueries record {
     # ID of Organization to be transferred to Enterprise
     string idOrganization;
+};
+
+# Represents the Queries record for the operation: get-members-id-actions
+public type GetMembersIdActionsQueries record {
+    # A comma-separated list of [action types](https://developer.atlassian.com/cloud/trello/guides/rest-api/action-types/)
+    string filter?;
 };
 
 # Name of the organization
@@ -1947,43 +1998,15 @@ public type ActionLimitsReactions record {
 
 # Represents the Queries record for the operation: get-enterprises-id-members-idmember
 public type GetEnterprisesIdMembersIdmemberQueries record {
+    # Any valid value that the [nested board resource](/cloud/trello/guides/rest-api/nested-resources/) accepts
     @http:Query {name: "board_fields"}
     string boardFields = "name";
+    # Any valid value that the [nested organization field resource](/cloud/trello/guides/rest-api/nested-resources/) accepts
     @http:Query {name: "organization_fields"}
     string organizationFields = "displayName";
     # A comma separated list of any valid values that the [nested member field resource]() accepts
     string fields = "avatarHash, fullName, initials, username";
 };
-
-# Represents the Queries record for the operation: put-boards-id-myPrefs-showsidebarmembers
-public type PutBoardsIdMyPrefsShowsidebarmembersQueries record {
-    # Determines whether to show members of the board in the sidebar
-    boolean value;
-};
-
-# Represents the Queries record for the operation: put-members-id
-public type PutMembersIdQueries record {
-    # New initials for the member. 1-4 characters long
-    @constraint:String {maxLength: 4, minLength: 1}
-    string initials?;
-    @http:Query {name: "prefs/locale"}
-    string prefsLocale?;
-    # New name for the member. Cannot begin or end with a space
-    string fullName?;
-    # 
-    string bio?;
-    # One of: `gravatar`, `none`, `upload`
-    "gravatar"|"none"|"upload" avatarSource?;
-    @http:Query {name: "prefs/colorBlind"}
-    boolean prefsColorBlind?;
-    @http:Query {name: "prefs/minutesBetweenSummaries"}
-    int:Signed32 prefsMinutesBetweenSummaries?;
-    # New username for the member. At least 3 characters long, only lowercase letters, underscores, and numbers. Must be unique
-    string username?;
-};
-
-# The new position for the List
-public type Value1Value1OneOf12 float;
 
 # Represents the Queries record for the operation: put-boards-id-members-idmember
 public type PutBoardsIdMembersIdmemberQueries record {
@@ -1991,6 +2014,12 @@ public type PutBoardsIdMembersIdmemberQueries record {
     boolean allowBillableGuest = false;
     # One of: admin, normal, observer. Determines the type of member this user will be on the board
     "admin"|"normal"|"observer" 'type;
+};
+
+# Represents the Queries record for the operation: put-boards-id-myPrefs-showsidebarmembers
+public type PutBoardsIdMyPrefsShowsidebarmembersQueries record {
+    # Determines whether to show members of the board in the sidebar
+    boolean value;
 };
 
 # Represents the Queries record for the operation: post-cards-id-labels
@@ -2001,23 +2030,41 @@ public type PostCardsIdLabelsQueries record {
     string name?;
 };
 
-# Represents the Queries record for the operation: get-lists-id
-public type GetListsIdQueries record {
-    # `all` or a comma separated list of List field names
-    string fields = "name,closed,idBoard,pos";
-};
+# The new position for the List
+public type Value1Value1OneOf12 float;
 
-public type Value1Value1Value1Value1OneOf1234 boolean;
+# Represents the Queries record for the operation: put-members-id
+public type PutMembersIdQueries record {
+    # New initials for the member. 1-4 characters long
+    @constraint:String {maxLength: 4, minLength: 1}
+    string initials?;
+    @http:Query {name: "prefs/locale"}
+    string prefsLocale?;
+    # New name for the member. Cannot begin or end with a space
+    string fullName?;
+    string bio?;
+    # One of: `gravatar`, `none`, `upload`
+    "gravatar"|"none"|"upload" avatarSource?;
+    @http:Query {name: "prefs/colorBlind"}
+    boolean prefsColorBlind?;
+    # `-1` for disabled, `1`, or `60`
+    @http:Query {name: "prefs/minutesBetweenSummaries"}
+    int:Signed32 prefsMinutesBetweenSummaries?;
+    # New username for the member. At least 3 characters long, only lowercase letters, underscores, and numbers. Must be unique
+    string username?;
+};
 
 # Represents the Queries record for the operation: get-enterprises-id-members
 public type GetEnterprisesIdMembersQueries record {
     # Pass a [SCIM-style query](/cloud/trello/scim/) to filter members. This takes precedence over the all/normal/admins value of members. If any of the below member_* args are set, the member array will be paginated
     string? filter?;
+    # Any valid value that the [nested board resource](/cloud/trello/guides/rest-api/nested-resources/) accepts
     @http:Query {name: "board_fields"}
     string boardFields = "name";
     # Any integer between 0 and 9999
     @constraint:Int {minValue: 0, maxValue: 9999}
     int:Signed32 startIndex?;
+    # Any valid value that the [nested organization field resource](/cloud/trello/guides/rest-api/nested-resources/) accepts
     @http:Query {name: "organization_fields"}
     string organizationFields = "displayName";
     # Deprecated: Please use `sort` instead. One of: `ascending`, `descending`, `asc`, `desc`
@@ -2031,6 +2078,14 @@ public type GetEnterprisesIdMembersQueries record {
     # A comma-seperated list of valid [member fields](/cloud/trello/guides/rest-api/object-definitions/#member-object)
     string fields = "avatarHash, fullName, initials, username";
 };
+
+# Represents the Queries record for the operation: get-lists-id
+public type GetListsIdQueries record {
+    # `all` or a comma separated list of List field names
+    string fields = "name,closed,idBoard,pos";
+};
+
+public type Value1Value1Value1Value1OneOf1234 boolean;
 
 public type Export record {
     string? size?;
@@ -2062,7 +2117,6 @@ public type CustomFieldDisplay record {
 
 # Represents the Queries record for the operation: put-organizations-id-members-idmember-deactivated
 public type PutOrganizationsIdMembersIdmemberDeactivatedQueries record {
-    # 
     boolean value;
 };
 
@@ -2070,7 +2124,6 @@ public type IdBoardsOneOf1 "mine";
 
 # Represents the Queries record for the operation: post-members-id-boardbackgrounds-1
 public type PostMembersIdBoardbackgrounds1Queries record {
-    # 
     record {byte[] fileContent; string fileName;} file;
 };
 
@@ -2155,7 +2208,6 @@ public type EnterpriseAdmin record {
 
 # Represents the Queries record for the operation: membersidcustomboardbackgrounds-1
 public type Membersidcustomboardbackgrounds1Queries record {
-    # 
     record {byte[] fileContent; string fileName;} file;
 };
 
@@ -2199,7 +2251,6 @@ public type Tag record {
 
 # Represents the Queries record for the operation: put-notifications-id-unread
 public type PutNotificationsIdUnreadQueries record {
-    # 
     string value?;
 };
 
@@ -2210,7 +2261,6 @@ public type MemberPrefsPrivacy record {
 
 # Represents the Queries record for the operation: post-members-id-customemoji
 public type PostMembersIdCustomemojiQueries record {
-    # 
     record {byte[] fileContent; string fileName;} file;
     # Name for the emoji. 2 - 64 characters
     @constraint:String {maxLength: 64, minLength: 2}
@@ -2268,6 +2318,9 @@ public type Member record {
     string bio?;
     "gravatar"|"upload" avatarSource?;
     TrelloID[]? idBoardsPinned?;
+    # Profile data with restricted visibility. These fields are visible only to members of the
+    # same organization. The values here (full name, for example) may differ from the values
+    # at the top level of the response
     MemberNonPublic nonPublic?;
     boolean confirmed?;
     int[] products?;
@@ -2364,58 +2417,73 @@ public type ActionDataCard record {
 
 # Represents the Queries record for the operation: get-search
 public type GetSearchQueries record {
+    # all or a comma-separated list of: `badges`, `checkItemStates`, `closed`, `dateLastActivity`, `desc`, `descData`, `due`, `idAttachmentCover`, `idBoard`, `idChecklists`, `idLabels`, `idList`, `idMembers`, `idMembersVoted`, `idShort`, `labels`, `manualCoverAttachment`, `name`, `pos`, `shortLink`, `shortUrl`, `subscribed`, `url`
     @http:Query {name: "card_fields"}
     string cardFields = "all";
+    # Whether to include member objects with card results
     @http:Query {name: "card_members"}
     boolean cardMembers = false;
+    # all or a comma-separated list of: avatarHash, bio, bioData, confirmed, fullName, idPremOrgsAdmin, initials, memberType, products, status, url, username
     @http:Query {name: "member_fields"}
     string memberFields = "avatarHash,fullName,initials,username,confirmed";
     # The search query with a length of 1 to 16384 characters
     @constraint:String {maxLength: 16834, minLength: 1}
     string query;
+    # Whether to include the parent board with card results
     @http:Query {name: "card_board"}
     boolean cardBoard = false;
+    # Whether to include the parent list with card results
     @http:Query {name: "card_list"}
     boolean cardList = false;
+    # Whether to include the parent organization with board results
     @http:Query {name: "board_organization"}
     boolean boardOrganization = false;
     # What type or types of Trello objects you want to search. all or a comma-separated list of: `actions`, `boards`, `cards`, `members`, `organizations`
     string modelTypes = "all";
+    # The maximum number of boards returned. Maximum: 1000
     @http:Query {name: "boards_limit"}
     int boardsLimit = 10;
+    # all or a comma-separated list of: `closed`, `dateLastActivity`, `dateLastView`, `desc`, `descData`, `idOrganization`, `invitations`, `invited`, `labelNames`, `memberships`, `name`, `pinned`, `powerUps`, `prefs`, `shortLink`, `shortUrl`, `starred`, `subscribed`, `url`
     @http:Query {name: "board_fields"}
     string boardFields = "name,idOrganization";
+    # Whether to include sticker objects with card results
     @http:Query {name: "card_stickers"}
     boolean cardStickers = false;
+    # all or a comma-separated list of billableMemberCount, desc, descData, displayName, idBoards, invitations, invited, logoHash, memberships, name, powerUps, prefs, premiumFeatures, products, url, website
     @http:Query {name: "organization_fields"}
     string organizationFields = "name,displayName";
+    # The maximum number of Workspaces to return. Maximum 1000
     @http:Query {name: "organizations_limit"}
     int:Signed32 organizationsLimit?;
     # A comma-separated list of Card IDs
     string idCards?;
+    # The maximum number of members to return. Maximum 1000
     @http:Query {name: "members_limit"}
     int:Signed32 membersLimit?;
     # `mine` or a comma-separated list of Board IDs
     IdBoards idBoards?;
     # A comma-separated list of Organization IDs
     string idOrganizations?;
+    # The page of results for cards. Maximum: 100
     @http:Query {name: "cards_page"}
     decimal cardsPage = 0;
     # By default, Trello searches for each word in your query against exactly matching words within Member content. Specifying partial to be true means that we will look for content that starts with any of the words in your query.  If you are looking for a Card titled "My Development Status Report", by default you would need to search for "Development". If you have partial enabled, you will be able to search for "dev" but not "velopment"
     boolean partial = false;
+    # The maximum number of cards to return. Maximum: 1000
     @http:Query {name: "cards_limit"}
     int cardsLimit = 10;
+    # Whether to include attachment objects with card results. A boolean value (true or false) or cover for only card cover attachments
     @http:Query {name: "card_attachments"}
     string cardAttachments = "false";
 };
+
+public type AttachmentsAttachmentsOneOf12 boolean;
 
 # Represents the Queries record for the operation: get-members-id-boardbackgrounds-idbackground
 public type GetMembersIdBoardbackgroundsIdbackgroundQueries record {
     # `all` or a comma-separated list of: `brightness`, `fullSizeUrl`, `scaled`, `tile`
     "all"|"brightness"|"fullSizeUrl"|"scaled"|"tile" fields = "all";
 };
-
-public type AttachmentsAttachmentsOneOf12 boolean;
 
 public type TokenPermission record {
     boolean read?;
@@ -2461,7 +2529,6 @@ public type PutNotificationsIdQueries record {
     boolean unread?;
 };
 
-# 
 public type Memberships record {
     TrelloID id?;
 };
@@ -2475,10 +2542,6 @@ public type GetCardsIdMembersvotedQueries record {
     string fields = "avatarHash,fullName,initials,username";
 };
 
-public type InlineResponse200 record {
-    string signupUrl?;
-};
-
 # Represents the Queries record for the operation: get-boards-id
 public type GetBoardsIdQueries record {
     # This is a nested resource. Read more about checklists as nested resources [here](/cloud/trello/guides/rest-api/nested-resources/)
@@ -2487,6 +2550,7 @@ public type GetBoardsIdQueries record {
     string cards = "none";
     # This is a nested resource. Read more about custom fields as nested resources [here](#custom-fields-nested-resource)
     boolean customFields = false;
+    # Use with the `cards` param to include card pluginData with the response
     @http:Query {name: "card_pluginData"}
     boolean cardPluginData = false;
     # This is a nested resource. Read more about memberships as nested resources [here](/cloud/trello/guides/rest-api/nested-resources/)
@@ -2503,16 +2567,20 @@ public type GetBoardsIdQueries record {
     string members = "none";
     # This is a nested resource. Read more about organizations as nested resources [here](/cloud/trello/guides/rest-api/nested-resources/)
     boolean organization = false;
+    # Use with the `organization` param to include organization pluginData with the response
     @http:Query {name: "organization_pluginData"}
     boolean organizationPluginData = false;
     # Determines whether the pluginData for this board should be returned. Valid values: true or false
     boolean pluginData = false;
-    # 
     boolean myPrefs = false;
     # The fields of the board to be included in the response. Valid values: all or a comma-separated list of: closed, dateLastActivity, dateLastView, desc, descData, idMemberCreator, idOrganization, invitations, invited, labelNames, memberships, name, pinned, powerUps, prefs, shortLink, shortUrl, starred, subscribed, url
     string fields = "name,desc,descData,closed,idOrganization,pinned,url,shortUrl,prefs,labelNames";
     # This is a nested resource. Read more about actions as nested resources [here](/cloud/trello/guides/rest-api/nested-resources/)
     string actions = "all";
+};
+
+public type InlineResponse200 record {
+    string signupUrl?;
 };
 
 # Represents the Queries record for the operation: get-notifications-id-board
@@ -2575,15 +2643,15 @@ public type GetCardsIdActionsQueries record {
 
 public type Pos1Pos1OneOf12 float;
 
-public type CardBadgesAttachmentsByTypeTrello record {
-    decimal board?;
-    decimal card?;
-};
-
 public type ActionLimitsReactionsPerAction record {
     decimal warnAt?;
     decimal disableAt?;
     string status?;
+};
+
+public type CardBadgesAttachmentsByTypeTrello record {
+    decimal board?;
+    decimal card?;
 };
 
 # Represents the Queries record for the operation: get-actions-id-membercreator
@@ -2630,6 +2698,7 @@ public type ActionDataList record {
 public type GetBoardsIdActionsQueries record {
     # A date string in the form of YYYY-MM-DDThh:mm:ssZ or a mongo object ID. Only objects created before this date will be returned
     string before?;
+    # The fields of the [member](/cloud/trello/guides/rest-api/object-definitions/#member-object) to return
     @http:Query {name: "member_fields"}
     string memberFields = "activityBlocked,avatarHash,avatarUrl,fullName,idMemberReferrer,initials,nonPublic,nonPublicAvailable,username";
     # The format of the returned Actions. Either list or count
@@ -2648,6 +2717,7 @@ public type GetBoardsIdActionsQueries record {
     decimal page = 0;
     # The fields to be returned for the Actions. [See Action fields here](/cloud/trello/guides/rest-api/object-definitions/#action-object)
     Action fields?;
+    # The fields of the [member](/cloud/trello/guides/rest-api/object-definitions/#member-object) creator to return
     @http:Query {name: "memberCreator_fields"}
     string memberCreatorFields = "activityBlocked,avatarHash,avatarUrl,fullName,idMemberReferrer,initials,nonPublic,nonPublicAvailable,username";
     # A comma-separated list of idModels. Only actions related to these models will be returned
@@ -2659,7 +2729,7 @@ public type GetBoardsIdActionsQueries record {
 # Represents the Queries record for the operation: get-cards-id-attachments-idattachment
 public type GetCardsIdAttachmentsIdattachmentQueries record {
     # The Attachment fields to be included in the response
-    InlineParameterItemsFields[] fields = [<InlineParameterItemsFields> "all"];
+    InlineParameterItemsFields[] fields = ["id"];
 };
 
 public type MemberMarketingOptIn record {
@@ -2684,19 +2754,6 @@ public type PostCardsIdIdmembersQueries record {
 };
 
 public type Pos2Pos2OneOf12 "top"|"bottom";
-
-# Proxy server configurations to be used with the HTTP client endpoint.
-public type ProxyConfig record {|
-    # Host name of the proxy server
-    string host = "";
-    # Proxy server port
-    int port = 0;
-    # Proxy server username
-    string userName = "";
-    # Proxy server password
-    @display {label: "", kind: "password"}
-    string password = "";
-|};
 
 # Represents the Queries record for the operation: post-labels
 public type PostLabelsQueries record {
@@ -2740,8 +2797,6 @@ public type GetActionsIdBoardQueries record {
     BoardFields fields?;
 };
 
-public type IdMemberOneOf1 string;
-
 # Represents the Queries record for the operation: post-boards-id-labels
 public type PostBoardsIdLabelsQueries record {
     # Sets the color of the new label. Valid values are a label color or `null`
@@ -2749,6 +2804,8 @@ public type PostBoardsIdLabelsQueries record {
     # The name of the label to be created. 1 to 16384 characters long
     string name;
 };
+
+public type IdMemberOneOf1 string;
 
 public type Plugin record {
     TrelloID id?;
