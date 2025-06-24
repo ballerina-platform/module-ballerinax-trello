@@ -6,7 +6,7 @@ version = "2.0.0"
 license = ["Apache-2.0"]
 authors = ["Ballerina"]
 keywords = ["Trello", "Boards", "Lists", "Cards"] # TODO: Add keywords
-icon = "../module-ballerinax-trello/docs/setup/resources/trello-logo.png"
+#icon = "../module-ballerinax-trello/docs/setup/resources/trello-logo.png"
 repository = "https://github.com/ballerina-platform/module-ballerinax-trello"
 
 [build-options]
