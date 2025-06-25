@@ -39,8 +39,6 @@ service / on new http:Listener(9090) {
 
     # Creates a new mock Trello card.
     #
-    # + caller - The caller of this resource function
-    # + req - The inbound HTTP request
     # + return - An error if responding fails, otherwise nil
     resource function post cards() returns Card|error {
         return {
@@ -56,8 +54,6 @@ service / on new http:Listener(9090) {
     # Retrieves a mock Trello list by ID.
     #
     # + id - The list ID
-    # + caller - The caller of this resource function
-    # + req - The inbound HTTP request
     # + return - An error if responding fails, otherwise nil
     resource function get lists/[string id]() returns TrelloList|error? {
         return {
@@ -70,8 +66,6 @@ service / on new http:Listener(9090) {
 
     # Creates a new mock Trello list.
     #
-    # + caller - The caller of this resource function
-    # + req - The inbound HTTP request
     # + return - An error if responding fails, otherwise nil
     resource function post lists() returns TrelloList|error {
         return {
@@ -85,8 +79,6 @@ service / on new http:Listener(9090) {
     # Retrieves a mock Trello card by ID.
     #
     # + id - The ID of the card
-    # + caller - The caller of this resource function
-    # + req - The inbound HTTP request
     # + return - An error if responding fails, otherwise nil
     resource function get cards/[string id]() returns Card|error {
         return {
@@ -103,8 +95,6 @@ service / on new http:Listener(9090) {
     # Updates a mock Trello card by ID.
     #
     # + cardId - The ID of the card to update
-    # + caller - The caller of this resource function
-    # + req - The inbound HTTP request
     # + return - An error if responding fails, otherwise nil
     resource function put cards/[string cardId]() returns Card|error {
         return {
@@ -122,8 +112,6 @@ service / on new http:Listener(9090) {
     # Deletes a mock Trello card by ID.
     #
     # + id - The ID of the card to delete
-    # + caller - The caller of this resource function
-    # + req - The inbound HTTP request
     # + return - An error if responding fails, otherwise nil
     resource function delete cards/[string id]() returns Card|error {
         return {"message": "Card " + id + " deleted successfully"};
