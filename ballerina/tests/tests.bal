@@ -68,12 +68,10 @@ function testCreateNewList() returns error? {
     groups: ["live_tests", "mock_tests"]
 }
 function testCreateNewCard() returns error? {
-
     PostCardsQueries queries = {
         "idList": "68539f5c1899d49ed12e804e",
         "name": "My New Trello Card"
     };
-
     Card result = check trello->/cards.post({}, queries);
     test:assertEquals(result.name, "My New Trello Card", msg = "Unexpected card name.");
 }
@@ -114,3 +112,4 @@ function testDeleteCard() returns error? {
     TrelloList result = check trello->/cards/[cardId].delete({});
     test:assertNotEquals(result, (), "Failed to delete the card.");
 }
+
