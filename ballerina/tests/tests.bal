@@ -18,7 +18,7 @@ import ballerina/test;
 
 configurable string key = ?;
 configurable string token = ?;
-configurable boolean isLiveServer = false;
+configurable boolean isLiveServer = ?;
 
 string testBoardID = "8SnkvBJj";
 string testListID = "68539f5c1899d49ed12e804e";

@@ -21,15 +21,14 @@ service / on new http:Listener(9090) {
     #
     # + id - The board ID (24-hex string in real calls).
     # + return - An error or a mock board record.
-
-   resource function get boards/[string id]() returns Board|error {
+    resource function get boards/[string id]() returns Board|error {
         return {
-            id: "68539f4be9c2176c10e6a77d", 
+            id: "68539f4be9c2176c10e6a77d",
             name: "Testing",
             desc: "Mock description",
             descData: (),
             closed: false,
-            idOrganization: "670e109943e32996b82be42f", 
+            idOrganization: "670e109943e32996b82be42f",
             pinned: false,
             url: "https://trello.com/b/" + id,
             shortUrl: "https://trello.com/b/" + id,
@@ -38,12 +37,12 @@ service / on new http:Listener(9090) {
         };
     }
 
-     # Creates a new mock Trello card.
+    # Creates a new mock Trello card.
     #
     # + caller - The caller of this resource function
     # + req - The inbound HTTP request
     # + return - An error if responding fails, otherwise nil
-   resource function post cards () returns Card|error {
+    resource function post cards() returns Card|error {
         return {
             id: "63c2d4d8f66e6c21e5e37ab7",
             name: "My New Trello Card",
@@ -54,18 +53,17 @@ service / on new http:Listener(9090) {
         };
     }
 
-     # Retrieves a mock Trello list by ID.
+    # Retrieves a mock Trello list by ID.
     #
     # + id - The list ID
     # + caller - The caller of this resource function
     # + req - The inbound HTTP request
     # + return - An error if responding fails, otherwise nil
-
-    resource function get lists/[string id]() returns TrelloList|error? { 
+    resource function get lists/[string id]() returns TrelloList|error? {
         return {
             id: id,
             name: "My New Trello List",
-            idBoard: "68539f4be9c2176c10e6a77d", 
+            idBoard: "68539f4be9c2176c10e6a77d",
             closed: false
         };
     }
@@ -84,13 +82,13 @@ service / on new http:Listener(9090) {
         };
     }
 
-     # Retrieves a mock Trello card by ID.
+    # Retrieves a mock Trello card by ID.
     #
     # + id - The ID of the card
     # + caller - The caller of this resource function
     # + req - The inbound HTTP request
     # + return - An error if responding fails, otherwise nil
-    resource function get cards/[string id] () returns Card|error {
+    resource function get cards/[string id]() returns Card|error {
         return {
             id: id,
             name: "Mock Trello Card",
@@ -109,25 +107,26 @@ service / on new http:Listener(9090) {
     # + req - The inbound HTTP request
     # + return - An error if responding fails, otherwise nil
     resource function put cards/[string cardId]() returns Card|error {
-    return {
-        id: cardId,
-        name: "Updated Card Name",
-        desc: "Mock updated description",
-        closed: false,
-        idList: "68539f5c1899d49ed12e804e",
-        idBoard: "63c2d4d8f66e6c21e5e37ab5",
-        due: (),
-        url: "http://localhost:9090/cards/" + cardId
-    };
-}
-     # Deletes a mock Trello card by ID.
+        return {
+            id: cardId,
+            name: "Updated Card Name",
+            desc: "Mock updated description",
+            closed: false,
+            idList: "68539f5c1899d49ed12e804e",
+            idBoard: "63c2d4d8f66e6c21e5e37ab5",
+            due: (),
+            url: "http://localhost:9090/cards/" + cardId
+        };
+    }
+
+    # Deletes a mock Trello card by ID.
     #
     # + id - The ID of the card to delete
     # + caller - The caller of this resource function
     # + req - The inbound HTTP request
     # + return - An error if responding fails, otherwise nil
     resource function delete cards/[string id]() returns Card|error {
-       return { "message": "Card " + id + " deleted successfully" };
+        return {"message": "Card " + id + " deleted successfully"};
 
     }
 }
