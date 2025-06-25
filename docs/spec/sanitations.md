@@ -6,7 +6,7 @@ _Edition_: Swan Lake
 # Sanitation for OpenAPI specification
 
 This document records the sanitation done on top of the official OpenAPI specification from Trello.
-The OpenAPI specification is obtained from this [site](https://developer.atlassian.com/cloud/trello/rest/api-group-actions/#api-group-actions) through the [link](https://dac-static.atlassian.com/cloud/trello/swagger.v3.json?_v=1.606.0)
+The OpenAPI specification is obtained from this [site](https://developer.atlassian.com/cloud/trello/rest/api-group-actions/#api-group-actions) through this [link](https://dac-static.atlassian.com/cloud/trello/swagger.v3.json?_v=1.606.0).
 
 These changes are done in order to improve the overall usability, and as workarounds for some known language limitations.
 
@@ -15,11 +15,10 @@ These changes are done in order to improve the overall usability, and as workaro
 
 ## OpenAPI cli command
 
-The following command was used to generate the Ballerina client from the OpenAPI specification. 
+The following command was used to generate the Ballerina client from the OpenAPI specification.
 
 The command should be executed from the repository root directory.
 
 ```bash
-bal openapi -i docs/spec/openapi.json --mode client -o ballerina
+bal openapi -i docs/spec/openapi.json --mode client --license docs/license.txt -o ballerina
 ```
-
