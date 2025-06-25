@@ -1,4 +1,4 @@
-// Copyright (c) 2024, WSO2 LLC. (http://www.wso2.com).
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
 //
 // WSO2 LLC. licenses this file to you under the Apache License,
 // Version 2.0 (the "License"); you may not use this file except
@@ -14,125 +14,82 @@
 // specific language governing permissions and limitations
 // under the License.
 
-
 import ballerina/test;
 
-configurable string API_KEY = ?;
-configurable string API_TOKEN = ?;
-configurable boolean IS_MOCK = false;
+configurable string key = ?;
+configurable string token = ?;
+configurable boolean isLiveServer = false;
 
 string testBoardID = "8SnkvBJj";
 string testListID = "68539f5c1899d49ed12e804e";
 
 string mockBaseUrl = "http://localhost:9090";
 string liveBaseUrl = "https://api.trello.com/1";
-string baseUrl = IS_MOCK ? mockBaseUrl : liveBaseUrl;
+string baseUrl = isLiveServer ? liveBaseUrl : mockBaseUrl;
 
 ApiKeysConfig apiKeyConfig = {
-    key: API_KEY,
-    token: API_TOKEN
+    key,
+    token
 };
 
-ConnectionConfig connConfig = check {};
-
-Client trello = check new(apiKeyConfig, connConfig, baseUrl);
+Client trello = check new (apiKeyConfig, {}, baseUrl);
 
 @test:Config {
     groups: ["live_tests", "mock_tests"]
 }
 function testGetBoardById() returns error? {
-    map<string|string[]> headers = {
-        "Content-Type": "application/json"
-    };
-
-    GetBoardsIdQueries queries = {}; 
-
-    Board|error result = trello->/boards/[testBoardID](headers, queries);
-
-    test:assertFalse(result is error, msg = "Failed to call board GET endpoint");
-
-    if result is json {
-        test:assertEquals((check result.id).toString(), "QD5bFabu", msg = "Board ID does not match");
-        test:assertEquals((check result.name).toString(), "Mock Trello Board", msg = "Unexpected board name");
-    }
+    Board result = check trello->/boards/[testBoardID];
+    test:assertEquals(result.id, "68539f4be9c2176c10e6a77d", msg = "Board ID does not match");
+    test:assertEquals(result.name, "Testing", msg = "Unexpected board name");
 }
+
 @test:Config {
     groups: ["live_tests", "mock_tests"]
 }
 function testGetListById() returns error? {
-    map<string|string[]> headers = {
-        "Content-Type": "application/json"
-    };
-    GetListsIdQueries queries = {};
-
-    TrelloList|error result = trello->/lists/[testListID](headers, queries);
-    test:assertFalse(result is error, msg = "Failed to call lists GET endpoint");
+    TrelloList result = check trello->/lists/[testListID];
+    test:assertEquals(result.id, "68539f5c1899d49ed12e804e", msg = "List ID does not match");
 }
 
 @test:Config {
     groups: ["live_tests", "mock_tests"]
 }
 function testCreateNewList() returns error? {
-    map<string|string[]> headers = {
-        "Content-Type": "application/json"
-    };
-
     PostListsQueries queries = {
         "idBoard": "68539f4be9c2176c10e6a77d",
         "name": "My New Trello List"
     };
-
-    TrelloList|error result = trello->/lists.post(headers, queries);
-
-    test:assertFalse(result is error, msg = "Failed to call lists POST endpoint");
-
-    if result is json {
-        test:assertEquals((check result.id).toString(), "newListId", msg = "Unexpected list ID");
-        test:assertEquals((check result.name).toString(), "My New Trello List", msg = "Unexpected list name");
-    }
+    TrelloList result = check trello->/lists.post({}, queries);
+    test:assertFalse(result !is TrelloList, msg = "Failed to call lists POST endpoint");
+    test:assertEquals((check result.name).toString(), "My New Trello List", msg = "Unexpected list name");
 }
 
 @test:Config {
     groups: ["live_tests", "mock_tests"]
 }
 function testCreateNewCard() returns error? {
-    map<string|string[]> headers = {
-        "Content-Type": "application/json"
-    };
+
     PostCardsQueries queries = {
         "idList": "68539f5c1899d49ed12e804e",
         "name": "My New Trello Card"
     };
 
-    Card|error result = trello->/cards.post(headers, queries);
-
-
-    test:assertFalse(result is error, msg = "Failed to create a new card.");
-
-    if result is Card {
-        test:assertEquals(result.name, "My New Trello Card", msg = "Unexpected card name.");
-    }
+    Card result = check trello->/cards.post({}, queries);
+    test:assertEquals(result.name, "My New Trello Card", msg = "Unexpected card name.");
 }
+
 @test:Config {
     groups: ["live_tests", "mock_tests"]
 }
 function testGetCardById() returns error? {
-    string testCardId = "6853ff7a8b3a4bbba54acd3a"; 
-    map<string|string[]> headers = {
-        "Content-Type": "application/json"
-    };
+    string testCardId = "6853ff7a8b3a4bbba54acd3a";
 
     GetCardsIdQueries queries = {
 
     };
-
-    Card|error result = trello->/cards/[testCardId](headers, queries);
-    test:assertFalse(result is error, msg = "Failed to retrieve the Card.");
-
-    if result is Card {
-        test:assertNotEquals(result.id, (), "Card ID cannot be empty.");
-        test:assertNotEquals(result.name, (), "Card name cannot be empty.");
-    }
+    Card result = check trello->/cards/[testCardId]({}, queries);
+    test:assertNotEquals(result.id, (), "Card ID cannot be empty.");
+    test:assertNotEquals(result.name, (), "Card name cannot be empty.");
 }
 
 @test:Config {
@@ -140,34 +97,20 @@ function testGetCardById() returns error? {
 }
 function testUpdateCardName() returns error? {
     string cardId = "6853ff7a8b3a4bbba54acd3a";
-
-    map<string|string[]> headers = {
-        "Content-Type": "application/json"
-    };
-
     PutCardsIdQueries queries = {
         "name": "Updated Card Name"
     };
 
-    Card|error result = trello->/cards/[cardId].put(headers, queries);
-    test:assertFalse(result is error, msg = "Failed to update card name.");
-
-    if result is Card {
-        test:assertEquals(result.name, "Updated Card Name", "Card name was not updated correctly.");
-    }
+    Card result = check trello->/cards/[cardId].put({}, queries);
+    test:assertEquals(result.name, "Updated Card Name", "Card name was not updated correctly.");
 }
 
 @test:Config {
     groups: ["live_tests", "mock_tests"]
 }
 function testDeleteCard() returns error? {
-    string cardId = "6854e94eec4d3ef63daec9ad";
+    string cardId = "685b8b113de471b8cd2e85a2";
 
-    map<string|string[]> headers = {
-        "Content-Type": "application/json"
-    };
-
-    TrelloList|error? result = trello->/cards/[cardId].delete(headers);
-
-    test:assertFalse(result is error, msg = "Failed to delete card with ID: " + cardId);
+    TrelloList result = check trello->/cards/[cardId].delete({});
+    test:assertNotEquals(result, (), "Failed to delete the card.");
 }
