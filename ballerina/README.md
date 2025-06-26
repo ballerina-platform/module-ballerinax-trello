@@ -14,8 +14,8 @@ The ballerinax/trello package provides APIs to connect and interact with Trello'
 
 To use the Trello connector, you must have access to the Trello API through a Trello account and an API key and token generated from it. If you do not have a Trello account, you can sign up for one [here](https://id.atlassian.com/signup?application=trello&continue=https%3A%2F%2Ftrello.com%2Fauth%2Fatlassian%2Fcallback%3FreturnUrl%3D%252F%26display%3DeyJ2ZXJpZmljYXRpb25TdHJhdGVneSI6InNvZnQifQ%253D%253D%26aaOnboarding%3D%26updateEmail%3D%26traceId%3D%26ssoVerified%3D%26createMember%3Dtrue%26jiraInviteLink%3D&display=eyJ2ZXJpZmljYXRpb25TdHJhdGVneSI6InNvZnQifQ%3D%3D). You can generate your Trello API key and token by following the instructions at [Trello API Keys](https://developer.atlassian.com/cloud/trello/guides/rest-api/api-introduction/).
 
-1. Visit https://trello.com/power-ups/admin and create a new powerup 
-![alt text](../docs/setup/resources/trello-form.png)
+1. Visit https://trello.com/power-ups/admin and create a new powerup
+   ![alt text](../docs/setup/resources/trello-powerups.png)
 
 2. Enter the required details like:
    Name of your Power-Up
@@ -23,8 +23,8 @@ To use the Trello connector, you must have access to the Trello API through a Tr
 
    Click “Create” to create your Power-Up.
 
-   ![alt text](../docs/setup/resources/trello-powerups.png)
-  
+   ![alt text](../docs/setup/resources/trello-form.png)
+
 3. Navigate to 'API Key' and click on 'Generate'
 
    ![alt text](../docs/setup/resources/trello-generateKey.png)
@@ -33,7 +33,6 @@ To use the Trello connector, you must have access to the Trello API through a Tr
 
 4. Next to the API Key description, there's a link to the token.
    Click the link, authorize the Power-Up, and you’ll be redirected to a page displaying your OAuth token.
-
 
    ![alt text](../docs/setup/resources/trello-key.png)
 
@@ -44,23 +43,31 @@ To use the Trello connector, you must have access to the Trello API through a Tr
    ![alt text](../docs/setup/resources/trello-token.png)
 
 ## Quickstart
+
 To use the Trello connector in your Ballerina application, update the .bal file as follows:
 
-#### Step 1: Import the module 
+#### Step 1: Import the module
+
 Import the Trello module.
+
 ```bash
 import ballerinax/trello;
 ```
 
 #### Step 2: Instantiate a new connector
-Create a ```Config.toml``` file and configure the obtained credentials as follows:
+
+Create a `Config.toml` file and configure the obtained credentials as follows:
+
 ```bash
 [ballerinax.trello]
 key = "your_api_key"
 key = "your_api_token"
 ```
+
 #### Step 3: Invoke connector operations
+
 Add a new Board
+
 ```
 public function main() {
     trello:Boards board = {
@@ -85,8 +92,8 @@ The `Trello` connector provides practical examples illustrating usage in various
 
 1. Download and install Java SE Development Kit (JDK) version 21. You can download it from either of the following sources:
 
-    * [Oracle JDK](https://www.oracle.com/java/technologies/downloads/)
-    * [OpenJDK](https://adoptium.net/)
+   - [Oracle JDK](https://www.oracle.com/java/technologies/downloads/)
+   - [OpenJDK](https://adoptium.net/)
 
    > **Note:** After installation, remember to set the `JAVA_HOME` environment variable to the directory where JDK was installed.
 
@@ -98,10 +105,10 @@ The `Trello` connector provides practical examples illustrating usage in various
 
 4. Export Github Personal access token with read package permissions as follows,
 
-    ```bash
-    export packageUser=<Username>
-    export packagePAT=<Personal access token>
-    ```
+   ```bash
+   export packageUser=<Username>
+   export packagePAT=<Personal access token>
+   ```
 
 ### Build options
 
@@ -145,9 +152,9 @@ Execute the commands below to build from the source.
 
 7. Publish the generated artifacts to the local Ballerina Central repository:
 
-    ```bash
-    ./gradlew clean build -PpublishToLocalCentral=true
-    ```
+   ```bash
+   ./gradlew clean build -PpublishToLocalCentral=true
+   ```
 
 8. Publish the generated artifacts to the Ballerina Central repository:
 
@@ -167,7 +174,7 @@ All the contributors are encouraged to read the [Ballerina Code of Conduct](http
 
 ## Useful links
 
-* For more information go to the [`trello` package](https://central.ballerina.io/ballerinax/trello/latest).
-* For example demonstrations of the usage, go to [Ballerina By Examples](https://ballerina.io/learn/by-example/).
-* Chat live with us via our [Discord server](https://discord.gg/ballerinalang).
-* Post all technical questions on Stack Overflow with the [#ballerina](https://stackoverflow.com/questions/tagged/ballerina) tag.
+- For more information go to the [`trello` package](https://central.ballerina.io/ballerinax/trello/latest).
+- For example demonstrations of the usage, go to [Ballerina By Examples](https://ballerina.io/learn/by-example/).
+- Chat live with us via our [Discord server](https://discord.gg/ballerinalang).
+- Post all technical questions on Stack Overflow with the [#ballerina](https://stackoverflow.com/questions/tagged/ballerina) tag.
