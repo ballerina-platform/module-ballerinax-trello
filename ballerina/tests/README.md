@@ -1,0 +1,88 @@
+# Running Tests 
+ ## Prerequisites
+ To run tests for the Trello connector, you will need:
+
+* A Trello account.
+* A Power-Up created via the Trello Developer Portal.
+* Your API Key and API Token, which you can obtain from the Trello API Key page.
+* The Board ID, List ID, and optionally Card IDs to test live APIs. 
+
+## Running Tests
+The Trello connector supports two environments for testing:
+
+| Test Group | Environment |
+| --- | --- |
+| `mock_tests` | Mock server for Trello API *(default)* |
+| `live_tests` | Actual Trello API|
+
+Use the `isLiveServer` configuration to switch between environments.
+
+## Running Tests in the Mock Server
+
+### 🔹 Option 1: Using `Config.toml` in the `tests/` Directory
+
+Create a file named `Config.toml` in the `tests/` folder with the following content:
+
+```toml
+[ballerinax.trello]
+key = "api-key"
+token = "api-token"
+isLiveServer = false
+```
+Set `isLiveServer` to false in `Config.toml` to set mock test environment 
+
+Then, run the following command to run the tests:
+```
+   ./gradlew clean test
+
+```
+### 🔹Option 2: Using Environment Variables
+Linux/macOS
+```
+export key="api-key"
+export token="api-token"
+export isLiveServer = false
+```
+Windows
+```
+setx key "api-key"
+setx token "api-token"
+setx isLiveServer = false
+```
+
+## Running Tests Against Trello Live API
+
+**Using a Config.toml File**
+
+Create a Config.toml file in the tests directory and add your authentication credentials as follows
+   ```
+   token = "<your-trellor-access-token>"
+   key = "<your-trello-key>"
+   isLiveServer = true
+   ```
+   Set `isLiveServer` to true in `Config.toml` to set live test environment 
+
+   Note that you have to use your real trello Board and List IDs when testing in the live environment. 
+
+**Using Environment Variables**
+
+Alternatively, you can set your authentication credentials as environment variables: 
+
+If you are using linux or mac, you can use following method:
+```
+   export token ="<your-trello-access-token>"
+   export key ="<your-trello-key>"
+   export isLiveServeer = true
+   ```
+
+   If you are using Windows you can use following method:
+ ```
+    setx token "<your-trello-access-token>"
+    setx key  "<your-trello-key>"
+    setx isLiveServer = true
+```
+
+Then, run the following command to run the tests:
+   ```
+   ./gradlew clean test
+   ```
