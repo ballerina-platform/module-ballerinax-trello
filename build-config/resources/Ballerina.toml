@@ -5,8 +5,8 @@ name = "trello"
 version = "@toml.version@"
 license = ["Apache-2.0"]
 authors = ["Ballerina"]
-keywords = [] # TODO: Add keywords
-# icon = "icon.png" # TODO: Add icon
+keywords = ["Trello", "Boards", "Lists", "Project management", "Workflows"] 
+icon = "icon.png" 
 repository = "https://github.com/ballerina-platform/module-ballerinax-trello"
 
 [build-options]
