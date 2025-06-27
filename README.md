@@ -15,7 +15,7 @@ The ballerinax/trello package provides APIs to connect and interact with Trello'
 To use the Trello connector, you must have access to the Trello API through a Trello account and an API key and token generated from it. If you do not have a Trello account, you can sign up for one [here](https://id.atlassian.com/signup?application=trello&continue=https%3A%2F%2Ftrello.com%2Fauth%2Fatlassian%2Fcallback%3FreturnUrl%3D%252F%26display%3DeyJ2ZXJpZmljYXRpb25TdHJhdGVneSI6InNvZnQifQ%253D%253D%26aaOnboarding%3D%26updateEmail%3D%26traceId%3D%26ssoVerified%3D%26createMember%3Dtrue%26jiraInviteLink%3D&display=eyJ2ZXJpZmljYXRpb25TdHJhdGVneSI6InNvZnQifQ%3D%3D). You can generate your Trello API key and token by following the instructions at [Trello API Keys](https://developer.atlassian.com/cloud/trello/guides/rest-api/api-introduction/).
 
 1. Visit https://trello.com/power-ups/admin and create a new powerup
-   ![alt text](docs/setup/resources/trello-powerups.png)
+   ![powerup](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-trello/refs/heads/main/docs/setup/resources/trello-powerups.png)
 
 2. Enter the required details like:
    Name of your Power-Up
@@ -23,24 +23,24 @@ To use the Trello connector, you must have access to the Trello API through a Tr
 
    Click “Create” to create your Power-Up.
 
-   ![alt text](docs/setup/resources/trello-form.png)
+   ![trelloform](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-trello/refs/heads/main/docs/setup/resources/trello-form.png)
 
 3. Navigate to 'API Key' and click on 'Generate'
 
-   ![alt text](docs/setup/resources/trello-generateKey.png)
+   ![apikey](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-trello/refs/heads/main/docs/setup/resources/trello-generateKey.png)
 
    Copy and securely store your API Key.
 
 4. Next to the API Key description, there's a link to the token.
    Click the link, authorize the Power-Up, and you’ll be redirected to a page displaying your OAuth token.
 
-   ![alt text](docs/setup/resources/trello-key.png)
+   ![Key](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-trello/refs/heads/main/docs/setup/resources/trello-key.png)
 
-   ![alt text](docs/setup/resources/trello-permission.png)
+   ![allow](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-trello/refs/heads/main/docs/setup/resources/trello-permission.png)
 
    Copy and securely store the Token.
 
-   ![alt text](docs/setup/resources/trello-token.png)
+   ![token](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-trello/refs/heads/main/docs/setup/resources/trello-token.png)
 
 ## Quickstart
 
