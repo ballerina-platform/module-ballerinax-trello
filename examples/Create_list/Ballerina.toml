@@ -8,7 +8,6 @@ distribution = "2201.12.7"
 org = "ballerinax"
 name = "trello"
 version = "2.0.0"
-repository="local"
 
 [build-options]
 observabilityIncluded = true
