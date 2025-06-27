@@ -59,7 +59,6 @@ import ballerinax/trello;
 Create a `Config.toml` file and configure the obtained credentials as follows:
 
 ```bash
-[ballerinax.trello]
 key = "your_api_key"
 token = "your_api_token"
 isLiveServer = false
@@ -75,8 +74,8 @@ Create a card
 
 The `Trello` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](examples), covering the following use cases:
 
-1. [Create and Retrieve a List](examples/Create_list/) - Create a new list in a specific Trello board and retrieve its details using the list ID.
-2. [Create and Update Card and retrieve it](examples/Create_card/) - Create a new card in a Trello list and update the card's name and view it.
+1. [Create and Retrieve a List and Cards in Trello](examples/Create_list/) - Create a new list in a specific Trello board and retrieve its details using the list ID.
+2. [Create, Update fetch add label to a Card in Trello](examples/Create_card/) - Create a new card in a Trello list and update the card's name and view it.
 
 ## Build from the source
 
