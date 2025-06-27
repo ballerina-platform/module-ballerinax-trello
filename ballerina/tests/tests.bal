@@ -15,12 +15,11 @@
 // under the License.
 
 import ballerina/test;
-import ballerina/os;
 
-configurable boolean isLiveServer = os:getEnv("isLiveServer") == "false";
-configurable string key = isLiveServer ? os:getEnv("key") : "1234567890abcdef1234567890abcdef";
-configurable string token = isLiveServer ? os:getEnv("token") : "abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890";
-configurable string baseUrl = isLiveServer ? "https://api.trello.com/1" : "http://localhost:9090";
+configurable boolean isLiveServer = true;
+configurable string key = "1234567890abcdef1234567890abcdef";
+configurable string token = "abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890";
+configurable string baseUrl = "http://localhost:9090";
 
 string testBoardID = "8SnkvBJj";
 string testListID = "68539f5c1899d49ed12e804e";
