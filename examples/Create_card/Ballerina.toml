@@ -1,13 +1,8 @@
 [package]
 org = "wso2"
-name = "Get_memberships"
+name = "create_card"
 version = "0.1.0"
 distribution = "2201.12.7"
-
-[[dependency]]
-org = "ballerinax"
-name = "trello"
-version = "2.0.0"
 
 [build-options]
 observabilityIncluded = true
