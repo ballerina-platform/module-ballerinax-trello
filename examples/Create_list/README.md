@@ -2,10 +2,10 @@
 
 This example demonstrates how to use the Trello API with Ballerina to:
 
-* Create a new list on a specified Trello board.
-* Fetch the created list by its ID.
-* Add a card to that list
-* Retrieve all cards from that list.
+- Create a new list on a specified Trello board.
+- Fetch the created list by its ID.
+- Add a card to that list
+- Retrieve all cards from that list.
 
 This use case is helpful for managing task groups programmatically, such as setting up project boards or automating workflow stages.
 
@@ -20,6 +20,7 @@ Refer to the [Setup guide](../../README.md) to obtain necessary credentials (cli
 ### 2. Board ID
 
 Before running the example, make sure you have:
+
 - A valid **Board ID** where the new list will be created
 
 You can retrieve the board ID from the URL of the board in Trello or by calling Trello's `GET /members/me/boards` endpoint.
@@ -39,6 +40,8 @@ apiToken = "<Your Trello API Token>"
 
 Execute the following command to run the example:
 
+Note that the list Id has to be a valid one
+
 ```bash
-bal run
+bal run -- <listId>
 ```

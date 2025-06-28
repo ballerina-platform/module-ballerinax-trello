@@ -1,3 +1,19 @@
+// Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com).
+//
+// WSO2 LLC. licenses this file to you under the Apache License,
+// Version 2.0 (the "License"); you may not use this file except
+// in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
+
 import ballerina/io;
 import ballerinax/trello;
 
@@ -20,14 +36,7 @@ public function main() returns error? {
         idList: listId,
         name: cardName
     };
-
-    trello:Card|error createdCardResult = trello->/cards.post({}, cardQueries);
-    if createdCardResult is error {
-        io:println("Failed to create card: ", createdCardResult.message());
-        return;
-    }
-
-    trello:Card createdCard = <trello:Card>createdCardResult;
+    trello:Card createdCard = check trello->/cards.post({}, cardQueries);
     io:println("Card created: ", createdCard.name, " (ID: ", createdCard.id, ")");
 
     string updatedCardName = "Updated Card Name";
@@ -36,13 +45,7 @@ public function main() returns error? {
     };
     string createdCardId = check createdCard.id.ensureType();
 
-    trello:Card|error updatedCardResult = trello->/cards/[createdCardId].put({}, updateQueries);
-    if updatedCardResult is error {
-        io:println("Failed to update card: ", updatedCardResult.message());
-        return;
-    }
-
-    trello:Card updatedCard = <trello:Card>updatedCardResult;
+    trello:Card updatedCard = check trello->/cards/[createdCardId].put({}, updateQueries);
     io:println("Card updated: ", updatedCard.name, " (ID: ", updatedCard.id, ")");
 
     check getCardById(updatedCard.id);
@@ -50,7 +53,7 @@ public function main() returns error? {
         name: "Urgent",
         color: "red"
     };
-    trello:Label|error? labelCreateResult = trello->/boards/[boardId]/labels.post({}, labelQueries);
+    trello:Label|error? labelCreateResult = check trello->/boards/[boardId]/labels.post({}, labelQueries);
     if labelCreateResult is error {
         io:println("Failed to create label: ", labelCreateResult.message());
         return;
@@ -60,11 +63,7 @@ public function main() returns error? {
     trello:PostCardsIdIdlabelsQueries addLabelQueries = {
         value: labelId
     };
-    error? addLabelResult = trello->/cards/[createdCardId]/idLabels.post({}, addLabelQueries);
-    if addLabelResult is error {
-        io:println("Failed to add label to card: ", addLabelResult.message());
-        return;
-    }
+    check trello->/cards/[createdCardId]/idLabels.post({}, addLabelQueries);
     io:println("Label added to card successfully.");
 }
 
@@ -74,13 +73,8 @@ function getCardById(trello:TrelloID? cardId) returns error? {
         return;
     }
     trello:GetCardsIdQueries queries = {};
-    trello:Card|error result = trello->/cards/[cardId]({}, queries);
-    if result is error {
-        io:println("Failed to get card: ", result.message());
-        return result;
-    }
-    trello:Card cardDetails = <trello:Card>result;
-    io:println("Fetched card Name: ", cardDetails.name);
-    io:println("Fetched card ID: ", cardDetails.id);
+    trello:Card card = check trello->/cards/[cardId]({}, queries);
+    io:println("Fetched card Name: ", card.name);
+    io:println("Fetched card ID: ", card.id);
     return;
 }
