@@ -16,16 +16,13 @@
 
 import ballerina/test;
 
-configurable string key = ?;
-configurable string token = ?;
-configurable boolean isLiveServer = ?;
+configurable boolean isLiveServer = true;
+configurable string key = "1234567890abcdef1234567890abcdef";
+configurable string token = "abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890";
+configurable string baseUrl = "http://localhost:9090";
 
 string testBoardID = "8SnkvBJj";
 string testListID = "68539f5c1899d49ed12e804e";
-
-string mockBaseUrl = "http://localhost:9090";
-string liveBaseUrl = "https://api.trello.com/1";
-string baseUrl = isLiveServer ? liveBaseUrl : mockBaseUrl;
 
 ApiKeysConfig apiKeyConfig = {
     key,
