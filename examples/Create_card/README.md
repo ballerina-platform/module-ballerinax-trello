@@ -24,8 +24,8 @@ You can retrieve the list ID from the URL of the list in Trello or by calling Tr
 Create a file named `Config.toml` in the root directory of this example with the following content:
 
 ```toml
-apiKey = "<Your Trello API Key>"
-apiToken = "<Your Trello API Token>"
+key = "<Your Trello API Key>"
+token = "<Your Trello API Token>"
 ```
 
 ## Run the example
