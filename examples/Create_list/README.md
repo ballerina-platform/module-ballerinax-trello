@@ -2,15 +2,12 @@
 
 This example demonstrates how to use the Trello API with Ballerina to:
 
-Create a new list on a specified Trello board.
+* Create a new list on a specified Trello board.
+* Fetch the created list by its ID.
+* Add a card to that list
+* Retrieve all cards from that list.
 
-Fetch the created list by its ID.
-
-Add a card to that list.
-
-Retrieve all cards from that list.
-
-This is useful for automating task grouping and initialization of project boards.. This use case is helpful for managing task groups programmatically, such as setting up project boards or automating workflow stages.
+This use case is helpful for managing task groups programmatically, such as setting up project boards or automating workflow stages.
 
 ---
 
