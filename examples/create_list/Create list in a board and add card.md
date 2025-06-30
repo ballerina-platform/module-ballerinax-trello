@@ -40,8 +40,8 @@ apiToken = "<Your Trello API Token>"
 
 Execute the following command to run the example:
 
-Note that the list Id has to be a valid one
+Note that the board Id has to be a valid one
 
 ```bash
-bal run -- <listId>
+bal run -- <boardId>
 ```
