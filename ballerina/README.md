@@ -61,6 +61,24 @@ token = "your_api_token"
 #### Step 3: Invoke the connector operation
 
 Now, utilize the available connector operations.
+Create a card
+
+```bash
+public function main() returns error? {
+    trello:PostCardsQueries cardPayload = {
+        idList: listId,
+        name: "This is a sample card"
+    };
+    trello:Card createdCard = check trello->/cards.post({}, cardPayload);
+    io:println("Card created: ", createdCard.name, " (ID: ", createdCard.id, ")");
+}
+```
+
+#### Step 4: Run the Ballerina application
+
+```bash
+bal run
+```
 
 ## Examples
 
