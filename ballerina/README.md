@@ -1,5 +1,3 @@
-# Ballerina Trello connector
-
 ## Overview
 
 [Trello](https://trello.com/) is a popular web-based project management and collaboration platform developed by Atlassian, allowing users to organize tasks, projects, and workflows using boards, lists, and cards.
@@ -10,15 +8,15 @@ The `ballerinax/trello` package provides APIs to connect and interact with [Trel
 
 To use the Trello connector, you must have access to the Trello API through a Trello account and an API key and token generated from it. If you do not have a Trello account, you can sign up for one [here](https://id.atlassian.com/signup). You can generate your Trello API key and token by following the instructions at [Trello API Keys](https://developer.atlassian.com/cloud/trello/guides/rest-api/api-introduction/).
 
-
 1. Visit https://trello.com/power-ups/admin and create a new powerup
 
    ![trello powerup](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-trello/refs/heads/main/docs/setup/resources/trello-powerups.png)
 
 2. Enter the required details:
-   * Name of your Power-Up
-   * Iframe Connector URL (can be a placeholder URL during development)
-   Click “Create” to create your Power-Up.
+
+   - Name of your Power-Up
+   - Iframe Connector URL (can be a placeholder URL during development)
+     Click “Create” to create your Power-Up.
 
    ![trello powerup form](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-trello/refs/heads/main/docs/setup/resources/trello-form.png)
 
@@ -63,8 +61,6 @@ token = "your_api_token"
 #### Step 3: Invoke the connector operation
 
 Now, utilize the available connector operations.
-
-Create a card
 
 ## Examples
 
