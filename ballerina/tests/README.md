@@ -24,7 +24,7 @@ Please ensure that the `boardId`, `listId`, and `cardId` values correspond to ac
 
 ## Running Tests in the Mock Server
 
-### 🔹 Option 1: Using `Config.toml` in the `tests/` Directory
+### 🔹 Using `Config.toml` in the `tests/` Directory
 
 Create a file named `Config.toml` in the `tests/` folder with the following content:
 
@@ -43,22 +43,6 @@ Then, run the following command to run the tests:
 
 ```
 
-### 🔹Option 2: Using Environment Variables
-
-Linux/macOS
-
-```
-export key="api-key"
-export token="api-token"
-```
-
-Windows
-
-```
-setx key "api-key"
-setx token "api-token"
-```
-
 ## Running Tests Against Trello Live API
 
 **Using a Config.toml File**
@@ -73,24 +57,6 @@ key = "<your-trello-key>"
 Set `isLiveServer` to true in `tests.bal` to set live test environment
 
 Note that you have to use your real trello Board and List IDs when testing in the live environment.
-
-**Using Environment Variables**
-
-Alternatively, you can set your authentication credentials as environment variables:
-
-If you are using linux or mac, you can use following method:
-
-```
-   export token ="<your-trello-access-token>"
-   export key ="<your-trello-key>"
-```
-
-If you are using Windows you can use following method:
-
-```
-   setx token "<your-trello-access-token>"
-   setx key  "<your-trello-key>"
-```
 
 Then, run the following command to run the tests:
 
