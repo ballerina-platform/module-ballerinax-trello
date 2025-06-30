@@ -70,5 +70,5 @@ Create a card
 
 The `Trello` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/module-ballerinax-trello/tree/main/examples/), covering the following use cases:
 
-1. [**Create and Retrieve a List and Cards in Trello**](examples/Create_list/) - Create a new list in a specific Trello board and retrieve its details using the list ID.
-2. [**Create, Update fetch add label to a Card in Trello**](examples/Create_card/) - Create a new card in a Trello list and update the card's name and view it.
+1. [**Create and Retrieve a List and Cards in Trello**](examples/create_list/) - Create a new list in a specific Trello board and retrieve its details using the list ID.
+2. [**Create, Update fetch add label to a Card in Trello**](examples/create_card/) - Create a new card in a Trello list and update the card's name and view it.
