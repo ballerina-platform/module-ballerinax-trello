@@ -32,10 +32,9 @@ Create a file named `Config.toml` in the `tests/` folder with the following cont
 [ballerinax.trello]
 key = "api-key"
 token = "api-token"
-isLiveServer = false
 ```
 
-Set `isLiveServer` to false in `Config.toml` to set mock test environment
+Set `isLiveServer` to false in `tests.bal` to set mock test environment
 
 Then, run the following command to run the tests:
 
@@ -51,7 +50,6 @@ Linux/macOS
 ```
 export key="api-key"
 export token="api-token"
-export isLiveServer = false
 ```
 
 Windows
@@ -59,7 +57,6 @@ Windows
 ```
 setx key "api-key"
 setx token "api-token"
-setx isLiveServer = false
 ```
 
 ## Running Tests Against Trello Live API
@@ -71,10 +68,9 @@ Create a Config.toml file in the tests directory and add your authentication cre
 ```
 token = "<your-trellor-access-token>"
 key = "<your-trello-key>"
-isLiveServer = true
 ```
 
-Set `isLiveServer` to true in `Config.toml` to set live test environment
+Set `isLiveServer` to true in `tests.bal` to set live test environment
 
 Note that you have to use your real trello Board and List IDs when testing in the live environment.
 
@@ -87,7 +83,6 @@ If you are using linux or mac, you can use following method:
 ```
    export token ="<your-trello-access-token>"
    export key ="<your-trello-key>"
-   export isLiveServeer = true
 ```
 
 If you are using Windows you can use following method:
@@ -95,7 +90,6 @@ If you are using Windows you can use following method:
 ```
    setx token "<your-trello-access-token>"
    setx key  "<your-trello-key>"
-   setx isLiveServer = true
 ```
 
 Then, run the following command to run the tests:
