@@ -16,7 +16,7 @@
 
 import ballerina/test;
 
-configurable boolean isLiveServer = true;
+configurable boolean isLiveServer = false;
 configurable string key = "1234567890abcdef1234567890abcdef";
 configurable string token = "abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890";
 configurable string baseUrl = "http://localhost:9090";

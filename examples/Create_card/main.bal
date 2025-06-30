@@ -20,8 +20,8 @@ import ballerinax/trello;
 configurable string key = ?;
 configurable string token = ?;
 
-string listId = "68539f5c1899d49ed12e804e";
-string boardId = "68539f4be9c2176c10e6a77d";
+configurable string listId = ?;
+configurable string boardId = ?;
 
 trello:ApiKeysConfig apiKeyConfig = {
     key,
@@ -76,5 +76,4 @@ function getCardById(trello:TrelloID? cardId) returns error? {
     trello:Card card = check trello->/cards/[cardId]({}, queries);
     io:println("Fetched card Name: ", card.name);
     io:println("Fetched card ID: ", card.id);
-    return;
 }

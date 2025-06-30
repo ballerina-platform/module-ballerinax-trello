@@ -90,5 +90,4 @@ function getCardsInList(string listId) returns error? {
     foreach var card in cards {
         io:println(" - ", card.name, " (ID: ", card.id, ")");
     }
-    return;
 }

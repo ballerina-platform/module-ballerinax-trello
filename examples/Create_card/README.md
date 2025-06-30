@@ -26,6 +26,8 @@ Create a file named `Config.toml` in the root directory of this example with the
 ```toml
 key = "<Your Trello API Key>"
 token = "<Your Trello API Token>"
+listId = "<Your Trello List ID>"
+boardId = "<Your Trello Board ID>"
 ```
 
 ## Run the example
@@ -33,5 +35,5 @@ token = "<Your Trello API Token>"
 Execute the following command to run the example:
 
 ```bash
-bal run
+bal run .
 ```
