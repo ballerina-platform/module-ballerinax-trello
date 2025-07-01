@@ -1,4 +1,4 @@
-# Create, update fetch add label to a card in Trello
+# Create, update fetch and add a label to a card in Trello
 
 This example demonstrates how to use the Trello API with Ballerina to create a card in a specific Trello list, update its name, and add a label to it. This use case is useful for automating task management workflows where card creation, modification, and labeling are performed programmatically.
 

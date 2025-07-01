@@ -84,5 +84,5 @@ bal run
 
 The `Trello` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/module-ballerinax-trello/tree/main/examples/), covering the following use cases:
 
-1. [**Create and Retrieve a List and Cards in Trello**](examples/create_list/) - Create a new list in a specific Trello board and retrieve its details using the list ID.
-2. [**Create, Update fetch add label to a Card in Trello**](examples/create_card/) - Create a new card in a Trello list and update the card's name and view it.
+1. [**Create and retrieve a list and cards in Trello**](https://github.com/ballerina-platform/module-ballerinax-trello/tree/main/examples/create_list) - Create a new list in a specific Trello board and retrieve its details using the list ID.
+2. [**Create, update fetch and add a label to a card in Trello**](https://github.com/ballerina-platform/module-ballerinax-trello/tree/main/examples/create_card) - Create a new card in a Trello list and update the card's name add a label to it and view it.
