@@ -15,7 +15,7 @@
 // under the License.
 
 import ballerina/io;
-import ballerinax/trello;
+import ballerinax/trello as trello;
 
 configurable string key = ?;
 configurable string token = ?;

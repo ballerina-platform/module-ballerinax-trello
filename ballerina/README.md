@@ -46,7 +46,7 @@ To use the Trello connector in your Ballerina application, update the .bal file 
 Import the Trello module.
 
 ```bash
-import ballerinax/trello;
+import ballerinax/trello as trello;
 ```
 
 #### Step 2: Instantiate a new connector
