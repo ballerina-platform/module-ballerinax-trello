@@ -12,9 +12,9 @@ The `ballerinax/trello` package provides APIs to connect and interact with [Trel
 
 ## Setup guide
 
-To use the Trello connector, you must have access to the Trello API through a Trello account and an API key and token generated from it. If you do not have a Trello account, you can sign up for one [here](https://id.atlassian.com/signup). You can generate your Trello API key and token by following the instructions at [Trello API Keys](https://developer.atlassian.com/cloud/trello/guides/rest-api/api-introduction/).
+To use the Trello connector, you must have access to the Trello API through a Trello account and an API key and token generated from it. If you do not have a Trello account, you can sign up for one through this link [here](https://id.atlassian.com/signup). You can generate your Trello API key and token by following the instructions at [Trello API Keys](https://developer.atlassian.com/cloud/trello/guides/rest-api/api-introduction/).
 
-1. Visit https://trello.com/power-ups/admin and create a new powerup
+1. Visit the [Trello powerups admin](https://trello.com/power-ups/admin) page and create a new powerup
 
    ![trello powerup](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-trello/refs/heads/main/docs/setup/resources/trello-powerups.png)
 
