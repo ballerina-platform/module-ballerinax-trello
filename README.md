@@ -14,7 +14,7 @@ The `ballerinax/trello` package provides APIs to connect and interact with [Trel
 
 To use the Trello connector, you must have access to the Trello API through a Trello account and an API key and token generated from it. If you do not have a Trello account, you can sign up for one [here](https://id.atlassian.com/signup). You can generate your Trello API key and token by following the instructions at [Trello API Keys](https://developer.atlassian.com/cloud/trello/guides/rest-api/api-introduction/).
 
-1. Visit https://trello.com/power-ups/admin and create a new powerup
+1. Visit the [Trello powerups admin](https://trello.com/power-ups/admin) page and create a new powerup
 
    ![trello powerup](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-trello/refs/heads/main/docs/setup/resources/trello-powerups.png)
 
@@ -89,10 +89,10 @@ bal run
 
 ## Examples
 
-The `Trello` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/module-ballerinax-trello/tree/main/examples/), covering the following use cases:
+The `Trello` connector provides practical examples illustrating usage in various scenarios. Explore these [examples](https://github.com/ballerina-platform/module-ballerinax-trello/tree/main/examples), covering the following use cases:
 
-1. [**Create and Retrieve a List and Cards in Trello**](examples/create_list/) - Create a new list in a specific Trello board and retrieve its details using the list ID.
-2. [**Create, Update fetch add label to a Card in Trello**](examples/create_card/) - Create a new card in a Trello list and update the card's name and view it.
+1. [**Create and retrieve a list and cards in Trello**](https://github.com/ballerina-platform/module-ballerinax-trello/tree/main/examples/create_list) - Create a new list in a specific Trello board and retrieve its details using the list ID.
+2. [**Create, update fetch and add a label to a card in Trello**](https://github.com/ballerina-platform/module-ballerinax-trello/tree/main/examples/create_card) - Create a new card in a Trello list and update the card's name add a label to it and view it.
 
 ## Build from the source
 

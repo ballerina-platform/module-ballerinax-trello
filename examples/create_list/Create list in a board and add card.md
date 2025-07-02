@@ -1,4 +1,4 @@
-# Create and Retrieve a List and Cards in Trello
+# Create and retrieve a list and cards in Trello
 
 This example demonstrates how to use the Trello API with Ballerina to:
 

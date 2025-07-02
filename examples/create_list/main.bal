@@ -50,12 +50,12 @@ function getListById(string listId) returns error? {
 
 public function main(string... args) returns error? {
     if args.length() < 1 {
-        io:println("Usage: bal run [package_path] -- <listId>");
+        io:println("Usage: bal run [package_path] -- <boardId>");
         return;
     }
-    string listId = args[0];
+    string boardId = args[0];
 
-    string|error listIdResult = createNewList(listId);
+    string|error listIdResult = createNewList(boardId);
     if listIdResult is error {
         io:println("Failed to create list: ", listIdResult.message());
         return listIdResult;

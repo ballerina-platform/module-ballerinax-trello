@@ -60,8 +60,7 @@ function testCreateNewList() returns error? {
         "name": "My New Trello List"
     };
     TrelloList result = check trello->/lists.post({}, queries);
-    test:assertFalse(result !is TrelloList, msg = "Failed to call lists POST endpoint");
-    test:assertEquals((check result.name).toString(), "My New Trello List", msg = "Unexpected list name");
+    test:assertEquals((result.name).toString(), "My New Trello List", msg = "Unexpected list name");
 }
 
 @test:Config {
