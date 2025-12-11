@@ -2,10 +2,10 @@
 distribution = "2201.12.0"
 org = "ballerinax"
 name = "trello"
-version = "2.0.0"
+version = "2.0.1"
 license = ["Apache-2.0"]
 authors = ["Ballerina"]
-keywords = ["Trello", "Boards", "Lists", "Project management", "Workflows"] 
+keywords = ["Boards", "Lists", "Workflows", "Vendor/Trello", "Area/Project Management", "Type/Connector"]
 icon = "icon.png" 
 repository = "https://github.com/ballerina-platform/module-ballerinax-trello"
 
