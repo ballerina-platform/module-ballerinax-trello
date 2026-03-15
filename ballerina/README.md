@@ -1,8 +1,15 @@
 ## Overview
 
-[Trello](https://trello.com/) is a popular web-based project management and collaboration platform developed by Atlassian, allowing users to organize tasks, projects, and workflows using boards, lists, and cards.
+[Trello](https://trello.com/) is a web-based project management and collaboration platform developed by Atlassian. It allows users to organize tasks, projects, and workflows using boards, lists, and cards, providing a visual and flexible way to manage work.
 
-The `ballerinax/trello` package provides APIs to connect and interact with [Trello's RESTful API endpoints](https://developer.atlassian.com/cloud/trello/rest/api-group-actions/), enabling developers to seamlessly manage boards, lists, cards, and other Trello resources.
+The Trello connector offers APIs to connect and interact with Trello RESTful API endpoints, enabling developers to manage boards, lists, cards, and other Trello resources.
+
+### Key Features
+
+- Manage Trello boards, lists, and cards programmatically
+- Support for Trello RESTful API endpoints
+- Efficient project and task organization
+- Integration with Trello's collaboration and workflow tools
 
 ## Setup guide
 
